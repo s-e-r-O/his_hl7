@@ -7,9 +7,9 @@
   <name>his</name>
   
   <modules>
-  	<module>../models</module>
-  	<module>../his_hl7</module>
-  	<module>../far_hl7</module>
+  	<module>models</module>
+  	<module>his_hl7</module>
+  	<module>far_hl7</module>
   </modules>
   <dependencies>
     <dependency>
