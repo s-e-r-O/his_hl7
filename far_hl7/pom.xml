@@ -3,24 +3,25 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>bioinfo</groupId>
-  <artifactId>his_hl7</artifactId>
+  <artifactId>far_hl7</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
 
-  <name>his_hl7</name>
+  <name>far_hl7</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.11</version>
       <scope>test</scope>
     </dependency>
-	<dependency>
+   	<dependency>
 	  <groupId>ca.uhn.hapi</groupId>
 	  <artifactId>hapi-base</artifactId>
 	  <version>2.2</version>
@@ -50,16 +51,6 @@
 	  <artifactId>log4j</artifactId>
 	  <version>1.2.17</version>
 	</dependency>
-	<dependency>
-	   <groupId>org.hibernate</groupId>
-	   <artifactId>hibernate-core</artifactId>
-	   <version>5.4.1.Final</version>
-	</dependency>
-	<dependency>
-	   <groupId>mysql</groupId>
-	   <artifactId>mysql-connector-java</artifactId>
-	   <version>8.0.15</version>
-	</dependency>
   </dependencies>
   <build>
 	  <plugins>
@@ -69,7 +60,7 @@
 	                <configuration>
 	                    <archive>
 	                        <manifest>
-	                            <mainClass>bioinfo.his_hl7.App</mainClass>
+	                            <mainClass>bioinfo.far_hl7.App</mainClass>
 	                        </manifest>
 	                    </archive>
 				        <descriptorRefs>
