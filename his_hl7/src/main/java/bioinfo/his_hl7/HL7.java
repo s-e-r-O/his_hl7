@@ -33,7 +33,6 @@ public class HL7 {
     	// The initiator is used to transmit unsolicited messages
     	Initiator initiator = connection.getInitiator();
     	Message response = initiator.sendAndReceive(adt);
-    	
     	String responseString = p.encode(response);
     	System.out.println("Received response:\n" + responseString);
     	
