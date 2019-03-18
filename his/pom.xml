@@ -14,6 +14,7 @@
   
   <modules>
   	<module>models</module>
+  	<module>dal_hl7</module>
   	<module>his_hl7</module>
   	<module>ext_hl7</module>
   	<module>pis_hl7</module>
