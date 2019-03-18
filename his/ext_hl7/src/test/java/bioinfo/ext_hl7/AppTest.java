@@ -1,4 +1,4 @@
-package bioinfo.far_hl7;
+package bioinfo.ext_hl7;
 
 import static org.junit.Assert.assertTrue;
 

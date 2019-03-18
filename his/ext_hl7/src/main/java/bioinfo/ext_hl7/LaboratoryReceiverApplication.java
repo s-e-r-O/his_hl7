@@ -1,4 +1,4 @@
-package bioinfo.far_hl7;
+package bioinfo.ext_hl7;
 
 import java.io.IOException;
 import java.util.Map;
@@ -9,7 +9,7 @@ import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.protocol.ReceivingApplication;
 import ca.uhn.hl7v2.protocol.ReceivingApplicationException;
 
-public class ExampleReceiverApplication implements ReceivingApplication
+public class LaboratoryReceiverApplication implements ReceivingApplication
 {
 
     /**
@@ -37,5 +37,3 @@ public class ExampleReceiverApplication implements ReceivingApplication
     }
 
 }
-
-
