@@ -10,6 +10,7 @@
   	<module>models</module>
   	<module>his_hl7</module>
   	<module>ext_hl7</module>
+  	<module>pis_hl7</module>
   </modules>
   <dependencies>
     <dependency>
