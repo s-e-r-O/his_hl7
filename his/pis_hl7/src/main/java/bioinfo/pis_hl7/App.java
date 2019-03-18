@@ -8,6 +8,12 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        Server s;
+    	try {
+        	s = new Server();
+        	s.init();
+        } catch(Exception e) {
+        	e.printStackTrace();
+        }
     }
 }
