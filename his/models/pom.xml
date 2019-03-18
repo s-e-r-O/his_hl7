@@ -21,7 +21,7 @@
 	                <configuration>
 	                    <archive>
 	                        <manifest>
-	                            <mainClass>upb.bio.models.App</mainClass>
+	                            <mainClass>upb.bio.App</mainClass>
 	                        </manifest>
 	                    </archive>
 				        <descriptorRefs>
