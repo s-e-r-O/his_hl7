@@ -1,4 +1,4 @@
-package bioinfo.his_hl7;
+package bioinfo.dal_hl7;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -38,5 +38,4 @@ public class Database {
 		}
 		return db.sessionFactory;
 	}
-	
 }
