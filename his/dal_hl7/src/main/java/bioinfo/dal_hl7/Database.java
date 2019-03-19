@@ -1,5 +1,6 @@
 package bioinfo.dal_hl7;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -37,5 +38,16 @@ public class Database {
 			}
 		}
 		return db.sessionFactory;
+	}
+	
+	public static Object saveToDB(Object o) {
+		
+		Object result = null;
+		
+		Session session = getSessionFactory().openSession();
+		session.beginTransaction();
+		result = session.save(o);
+		session.getTransaction().commit();
+		return result;
 	}
 }
