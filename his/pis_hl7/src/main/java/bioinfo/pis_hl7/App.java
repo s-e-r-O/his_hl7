@@ -1,13 +1,19 @@
 package bioinfo.pis_hl7;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
-    public static void main( String[] args )
+	private static Manager manager;
+	public static Manager getManager() {
+		if (manager == null) {
+			manager = new Manager();
+		}
+		return manager;
+	}
+	
+	public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+    	Server s = new Server();
+    	s.init();
+    	
     }
 }
