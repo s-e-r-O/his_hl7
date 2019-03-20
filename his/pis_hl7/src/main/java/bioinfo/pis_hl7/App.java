@@ -1,19 +1,28 @@
 package bioinfo.pis_hl7;
 
+import java.awt.EventQueue;
+
 public class App 
 {
-	private static Manager manager;
-	public static Manager getManager() {
+	private static ScheduleManager manager;
+	public static ScheduleManager getManager() {
 		if (manager == null) {
-			manager = new Manager();
+			manager = new ScheduleManager();
 		}
 		return manager;
 	}
 	
 	public static void main( String[] args )
     {
-    	Server s = new Server();
-    	s.init();
-    	
+		getManager().init();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ScheduleWindow window = new ScheduleWindow();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
     }
 }

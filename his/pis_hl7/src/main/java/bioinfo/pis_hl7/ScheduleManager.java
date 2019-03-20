@@ -5,9 +5,19 @@ import java.util.Map;
 
 import upb.bio.models.Patient;
 
-public class Manager {
+public class ScheduleManager {
+	
+	private Server s;
 	
 	private Map<Patient, Object> visits;
+	
+	public ScheduleManager() {
+    	s = new Server(); 
+	}
+	
+	public void init() {
+		s.init();
+	}
 	
 	public Map<Patient, Object> getVisits(){
 		if (visits == null) {
