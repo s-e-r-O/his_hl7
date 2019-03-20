@@ -9,6 +9,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import ca.uhn.hl7v2.model.DataTypeException;
+import ca.uhn.hl7v2.model.v24.message.ADT_A05;
 @Entity
 public class Consultation {
 	@Id
@@ -16,7 +18,7 @@ public class Consultation {
 	
 	@ManyToMany
 	@JoinColumn(name = "Patient_id")
-	private int patientId;
+	private String patientId;
 	
 	@ManyToMany
 	@JoinColumn(name = "Doctor_id")
@@ -26,13 +28,22 @@ public class Consultation {
 	@Temporal(TemporalType.TIMESTAMP)
     private Date consultationDate;
 	
+	
+	
 	public Consultation() {}
 	
-	public Consultation(Date consultationDate, int patientId, int doctorId ) {
+	public Consultation(Date consultationDate, String patientId, int doctorId ) {
 		this.setConsultationDate(consultationDate);
 		this.setPatientId(patientId);
 		this.setDoctorId(doctorId);
 	}
+	
+	public Consultation(ADT_A05 adt) throws DataTypeException {
+		this.setPatientId(adt.getPID().getSetIDPID().getValue());
+		this.setConsultationDate(adt.getPV1().getAdmitDateTime().getTimeOfAnEvent().getValueAsDate());
+		this.setDoctorId(adt.getPV1().getConsultingDoctorReps());
+	}
+	
 	
 	
 	public int getId() {
@@ -51,11 +62,11 @@ public class Consultation {
     	this.consultationDate = consultationDate;
     }
     
-    public int getPatientId() {
+    public String getPatientId() {
         return patientId;
     }
  
-    public void setPatientId(int patientId) {
+    public void setPatientId(String patientId) {
         this.patientId = patientId;
     }
     
