@@ -13,5 +13,6 @@
   <mapping class="upb.bio.models.Doctor"/>
   <mapping class="upb.bio.models.Consultation"/>
   <mapping class="upb.bio.models.Patient"/>
+  <mapping class="upb.bio.models.Doctor"/>
  </session-factory>
 </hibernate-configuration>

@@ -3,54 +3,47 @@ package upb.bio.models;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import ca.uhn.hl7v2.model.DataTypeException;
-import ca.uhn.hl7v2.model.v24.message.ADT_A05;
+
 @Entity
 public class Consultation {
 	@Id
-	private int id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 	
-	@ManyToMany
+	@OneToOne
 	@JoinColumn(name = "Patient_id")
-	private String patientId;
+	private Patient patient;
 	
-	@ManyToMany
+	@OneToOne
 	@JoinColumn(name = "Doctor_id")
-	private int doctorId;
+	private Doctor doctor;
 	
 	
 	@Temporal(TemporalType.TIMESTAMP)
     private Date consultationDate;
 	
-	
-	
 	public Consultation() {}
 	
-	public Consultation(Date consultationDate, String patientId, int doctorId ) {
+	public Consultation(Date consultationDate, Patient patient, Doctor doctor) {
 		this.setConsultationDate(consultationDate);
-		this.setPatientId(patientId);
-		this.setDoctorId(doctorId);
-	}
-	
-	public Consultation(ADT_A05 adt) throws DataTypeException {
-		this.setPatientId(adt.getPID().getSetIDPID().getValue());
-		this.setConsultationDate(adt.getPV1().getAdmitDateTime().getTimeOfAnEvent().getValueAsDate());
-		this.setDoctorId(adt.getPV1().getConsultingDoctorReps());
+		this.setPatient(patient);
+		this.setDoctor(doctor);
 	}
 	
 	
-	
-	public int getId() {
+	public Long getId() {
         return id;
     }
  
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
     
@@ -62,20 +55,20 @@ public class Consultation {
     	this.consultationDate = consultationDate;
     }
     
-    public String getPatientId() {
-        return patientId;
+    public Patient getPatient() {
+        return patient;
     }
  
-    public void setPatientId(String patientId) {
-        this.patientId = patientId;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
     
-    public int getDoctorId() {
-        return doctorId;
+    public Doctor getDoctor() {
+        return doctor;
     }
  
-    public void setDoctorId(int doctorId) {
-        this.doctorId = doctorId;
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 	
 }

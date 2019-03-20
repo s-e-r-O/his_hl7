@@ -3,6 +3,8 @@ package upb.bio.models;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -12,7 +14,8 @@ import ca.uhn.hl7v2.model.v24.segment.PID;
 @Entity
 public class Patient {
 	@Id
-	private int id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 	private String setIDPID;
     private String familyName;
     private String givenName;
@@ -40,11 +43,11 @@ public class Patient {
     	}
     }
     
-    public int getId() {
+    public Long getId() {
         return id;
     }
  
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
     
