@@ -1,9 +1,11 @@
 package bioinfo.his_hl7;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 import bioinfo.dal_hl7.CRUDService;
+import ca.uhn.hl7v2.HL7Exception;
 import upb.bio.models.Consultation;
 import upb.bio.models.Doctor;
 import upb.bio.models.Patient;
@@ -24,5 +26,15 @@ public class ConsultRegistrationHandler {
 		Long id = service.save(consult);
 		consult.setId(id);
 		consults.add(consult);
+		try {
+			HL7.sendA04Message(patient, doctor, actualDate, ConsultTypes.Emergency.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+}
+
+enum ConsultTypes{
+	Emergency, Routine;
 }
