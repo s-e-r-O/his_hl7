@@ -8,6 +8,8 @@
   <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/his?serverTimezone=UTC</property>
   <property name="hibernate.connection.username">root</property>
   <property name="hbm2ddl.auto">validate</property>
+  <mapping class="upb.bio.models.Doctor"/>
+  <mapping class="upb.bio.models.Consultation"/>
   <mapping class="upb.bio.models.Patient"/>
  </session-factory>
 </hibernate-configuration>
