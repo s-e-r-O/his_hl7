@@ -63,7 +63,7 @@ public class HL7 {
 		pid.getPatientIdentifierList(0).getID().setValue(patient.getId()+""); //do we need a PID?
 	
 		PV1 pv1 = adt.getPV1();
-		pv1.getAdmissionType().setValue(type);
+		pv1.getPatientClass().setValue(type);
 		
 		sendMessage(adt);
 	}
