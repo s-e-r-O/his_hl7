@@ -12,7 +12,7 @@ import ca.uhn.hl7v2.model.v24.segment.PID;
 @Entity
 public class Patient {
 	@Id
-	private int id;
+	private Long id;
 	private String setIDPID;
     private String familyName;
     private String givenName;
@@ -40,11 +40,11 @@ public class Patient {
     	}
     }
     
-    public int getId() {
+    public Long getId() {
         return id;
     }
  
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
     
