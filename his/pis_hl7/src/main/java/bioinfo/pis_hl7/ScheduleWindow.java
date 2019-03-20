@@ -10,7 +10,11 @@ import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JList;
+
+import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ScheduleWindow {
 
@@ -44,6 +48,20 @@ public class ScheduleWindow {
 		JComboBox comboBox_1 = new JComboBox();
 		
 		JButton btnVerConsulta = new JButton("Ver consulta");
+		btnVerConsulta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							VisitFrame frame = new VisitFrame();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		
 		JList list = new JList();
 		
