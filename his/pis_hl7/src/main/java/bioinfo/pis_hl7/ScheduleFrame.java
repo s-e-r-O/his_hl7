@@ -16,14 +16,14 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ScheduleWindow {
+public class ScheduleFrame {
 
 	private JFrame frmDoctor;
 
 	/**
 	 * Create the application.
 	 */
-	public ScheduleWindow() {
+	public ScheduleFrame() {
 		initialize();
 		frmDoctor.setVisible(true);
 	}

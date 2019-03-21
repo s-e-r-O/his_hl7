@@ -18,7 +18,7 @@ public class App
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ScheduleWindow window = new ScheduleWindow();
+					ScheduleFrame window = new ScheduleFrame();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
