@@ -17,7 +17,8 @@ public class App
     	
     	Doctor newDoctor = new Doctor("Dr", "Seuss");
     	CRUDService<Doctor> service = new CRUDService<Doctor>();
-    	service.save(newDoctor);
+    	Long id = service.save(newDoctor);
+    	newDoctor.setId(id);
     	conHandler.registerEmergencyConsult(newPatient, newDoctor);
     }
 }

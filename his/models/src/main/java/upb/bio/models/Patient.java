@@ -87,13 +87,13 @@ public class Patient {
 		      return false;
 		    }
 		    Patient p = (Patient)o;
-		    return setIDPID.equals(p.setIDPID);
+		    return id.equals(p.id);
 	}
 	
 	@Override
 	public int hashCode() {
         int hash = 3;
-        hash = 53 * hash + (setIDPID != null ? setIDPID.hashCode() : 0);
+        hash = 53 * hash + (id != null ? id.hashCode() : 0);
         return hash;
 	}
 }

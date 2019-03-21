@@ -30,12 +30,10 @@ public class ScheduleManager {
 	}
 	
 	public void putVisit(Patient p) {
-		if (!getVisits().containsKey(p)) {
-			getVisits().put(p, null);
-		}
+		getVisits().put(p, null);
 		System.out.println("Visits:");
 		for(Map.Entry<Patient, Object> entry : getVisits().entrySet()) {
-			System.out.println("Patient: (" + entry.getKey().getSetIDPID() + ") " + entry.getKey().getGivenName() + " " + entry.getKey().getFamilyName());	
+			System.out.println("Patient: (" + entry.getKey().getId() + ") " + entry.getKey().getGivenName() + " " + entry.getKey().getFamilyName());	
 		}
 	}
 	
