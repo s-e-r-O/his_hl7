@@ -1,43 +1,62 @@
 package bioinfo.pis_hl7;
 
-import javax.swing.JFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import javax.swing.JSeparator;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JComboBox;
-import javax.swing.SwingConstants;
-import javax.swing.JButton;
-import javax.swing.JList;
-
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
+
+import javax.swing.DefaultListModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import java.awt.Color;
 
-public class ScheduleFrame {
+import upb.bio.models.Consultation;
+import upb.bio.models.Patient;
+import javax.swing.ListModel;
+import javax.swing.AbstractListModel;
 
-	private JFrame frmDoctor;
+public class ScheduleFrame extends JFrame {
+
+	private JPanel contentPane;
+	private JList list;
+	private DefaultListModel<Consultation> dlm;
 
 	/**
 	 * Create the application.
 	 */
 	public ScheduleFrame() {
 		initialize();
-		frmDoctor.setVisible(true);
+		subscribeToManager();
+		setVisible(true);
+	}
+
+	private void subscribeToManager() {
+		App.getManager().subscribe(this);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmDoctor = new JFrame();
-		frmDoctor.setTitle("Doctor");
-		frmDoctor.setBounds(100, 100, 450, 451);
-		frmDoctor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Doctor");
+		setBounds(100, 100, 450, 451);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
 		
 		JLabel lblDoctor = new JLabel("Doctor");
 		lblDoctor.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -65,20 +84,19 @@ public class ScheduleFrame {
 			}
 		});
 		
-		JList list = new JList();
-		list.setBorder(new LineBorder(new Color(0, 0, 0)));
-		
 		JLabel label = new JLabel("Name");
 		
 		JLabel label_1 = new JLabel("Consulta seleccionada:");
 		
-		GroupLayout groupLayout = new GroupLayout(frmDoctor.getContentPane());
+		JScrollPane scrollPane = new JScrollPane();
+		
+		GroupLayout groupLayout = new GroupLayout(contentPane);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(list, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
 						.addComponent(btnVerConsulta, GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
 						.addComponent(separator, GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
 						.addComponent(lblDoctor, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
@@ -86,7 +104,7 @@ public class ScheduleFrame {
 							.addComponent(comboBox, 0, 268, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
 							.addGap(7)
 							.addComponent(label, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)))
@@ -107,12 +125,19 @@ public class ScheduleFrame {
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(label_1)
 						.addComponent(label))
-					.addGap(18)
-					.addComponent(list, GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+					.addGap(18)
 					.addComponent(btnVerConsulta)
 					.addContainerGap())
 		);
-		frmDoctor.getContentPane().setLayout(groupLayout);
+		dlm = new DefaultListModel<Consultation>();
+		list = new JList(dlm);
+		scrollPane.setViewportView(list);
+		contentPane.setLayout(groupLayout);
+	}
+	
+	public void action(Consultation c) {
+		dlm.add(dlm.getSize(), c);
 	}
 }
