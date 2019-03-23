@@ -10,10 +10,13 @@ import ca.uhn.hl7v2.app.Connection;
 import ca.uhn.hl7v2.app.Initiator;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.v24.message.ADT_A01;
+import ca.uhn.hl7v2.model.v24.message.ADT_A03;
+import ca.uhn.hl7v2.model.v24.segment.EVN;
 import ca.uhn.hl7v2.model.v24.segment.MSH;
 import ca.uhn.hl7v2.model.v24.segment.PID;
 import ca.uhn.hl7v2.model.v24.segment.PV1;
 import ca.uhn.hl7v2.parser.Parser;
+import upb.bio.models.Consultation;
 import upb.bio.models.Doctor;
 import upb.bio.models.Patient;
 
@@ -49,12 +52,12 @@ public class HL7 {
 	
 	public static void sendA04Message(Patient patient, Doctor doctor, Date date, String type) throws Exception {
 		ADT_A01 adt = new ADT_A01();
-		adt.initQuickstart("ADT", "A01", "P");
+		adt.initQuickstart("ADT", "A04", "P");
 		
 		// Populate the MSH Segment
 		MSH mshSegment = adt.getMSH();
 		mshSegment.getSendingApplication().getNamespaceID().setValue("PatientConsultRegistrationSystem");
-		mshSegment.getSequenceNumber().setValue("123");
+		mshSegment.getSequenceNumber().setValue("123"); //change this
 		
 		// Populate the PID Segment
 		PID pid = adt.getPID(); 
@@ -64,6 +67,20 @@ public class HL7 {
 	
 		PV1 pv1 = adt.getPV1();
 		pv1.getPatientClass().setValue(type);
+		
+		sendMessage(adt);
+	}
+	
+	public static void sendA11Message(Consultation consult) throws Exception {
+		ADT_A03 adt = new ADT_A03();
+		adt.initQuickstart("ADT", "A11", "P");
+		
+		// Populate the MSH Segment
+		MSH mshSegment = adt.getMSH();
+		mshSegment.getSendingApplication().getNamespaceID().setValue("PatientConsultRegistrationSystem");
+		mshSegment.getSequenceNumber().setValue("123"); //change this
+				
+		//finish!
 		
 		sendMessage(adt);
 	}

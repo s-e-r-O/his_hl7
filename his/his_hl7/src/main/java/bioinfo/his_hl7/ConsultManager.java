@@ -10,12 +10,12 @@ import upb.bio.models.Consultation;
 import upb.bio.models.Doctor;
 import upb.bio.models.Patient;
 
-public class ConsultRegistrationHandler {
+public class ConsultManager {
 
 	private List<Consultation> consults;
 	private CRUDService<Consultation> service;
 	
-	public ConsultRegistrationHandler () {
+	public ConsultManager () {
 		service = new CRUDService<Consultation>();
 		consults = service.get("from Consultation");
 	}
@@ -32,6 +32,10 @@ public class ConsultRegistrationHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void cancelConsult(Consultation consult) {
+		service.delete(consult);
 	}
 }
 
