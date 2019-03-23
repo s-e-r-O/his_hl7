@@ -22,4 +22,11 @@ public class CRUDService<T> {
 		session.getTransaction().commit();
 		return result;
 	}
+	
+	public void delete(T o) {
+		Session session = Database.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.delete(o);
+		session.getTransaction().commit();
+	}
 }

@@ -10,7 +10,7 @@ public class App
 {	
     public static void main(String[] args) throws Exception { 
     	PatientRegistrationHandler patHandler = new PatientRegistrationHandler();
-    	ConsultRegistrationHandler conHandler = new ConsultRegistrationHandler();
+    	ConsultManager conHandler = new ConsultManager();
     	
     	//register patient
     	Patient newPatient = patHandler.registerNewPatient("Isabella", "Defilippis", new Date("01/08/1997"));
