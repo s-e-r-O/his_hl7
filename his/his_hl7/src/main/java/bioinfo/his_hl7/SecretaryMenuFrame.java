@@ -53,6 +53,20 @@ public class SecretaryMenuFrame extends JFrame {
 		});
 		
 		JButton btnCancelarConsulta = new JButton("Cancelar consulta");
+		btnCancelarConsulta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							ConsultCancellationFrame frame = new ConsultCancellationFrame();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
