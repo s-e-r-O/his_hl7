@@ -13,26 +13,12 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class NurseMenuFrame extends JFrame {
 
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					NurseMenuFrame frame = new NurseMenuFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -51,6 +37,20 @@ public class NurseMenuFrame extends JFrame {
 		JSeparator separator = new JSeparator();
 		
 		JButton btnRegistrarVisitaDe = new JButton("Registrar visita de emergencia");
+		btnRegistrarVisitaDe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							ConsultRegistrationFrame frame = new ConsultRegistrationFrame();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		
 		JButton btnRegistroDeLlegada = new JButton("Registro de llegada");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
