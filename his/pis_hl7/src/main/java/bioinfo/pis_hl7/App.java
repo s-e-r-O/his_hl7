@@ -4,21 +4,26 @@ import java.awt.EventQueue;
 
 public class App 
 {
-	private static ScheduleManager manager;
-	public static ScheduleManager getManager() {
-		if (manager == null) {
-			manager = new ScheduleManager();
+	private static Server s;
+	private static ScheduleFrame frame;
+	private static ScheduleFrame getFrame() {
+		if (frame == null) {
+			frame = new ScheduleFrame();
 		}
-		return manager;
+		return frame;
+	}
+	public static ScheduleManager getManager() {
+		return getFrame().getManager();
 	}
 	
 	public static void main( String[] args )
     {
-		getManager().init();
+		s = new Server();
+		s.init();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ScheduleFrame window = new ScheduleFrame();
+					getFrame().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

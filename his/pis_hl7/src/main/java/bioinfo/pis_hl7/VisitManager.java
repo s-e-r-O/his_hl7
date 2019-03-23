@@ -1,15 +1,19 @@
 package bioinfo.pis_hl7;
 
-import upb.bio.models.Patient;
+import upb.bio.models.Consultation;
 
 public class VisitManager {
-	private Patient patient;
+	private Consultation consultation;
 
-	public Patient getPatient() {
-		return patient;
+	public Consultation getConsultation() {
+		return consultation;
 	}
 
-	public void setPatient(Patient patient) {
-		this.patient = patient;
+	public void setConsultation(Consultation consultation) {
+		this.consultation = consultation;
+	}
+	
+	public VisitManager(Consultation c) {
+		this.setConsultation(c);
 	}
 }
