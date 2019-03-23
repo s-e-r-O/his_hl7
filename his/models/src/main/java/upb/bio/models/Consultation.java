@@ -7,8 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -74,7 +72,7 @@ public class Consultation {
     
     @Override
     public String toString() {
-    	return getPatient().getGivenName() + " " + getPatient().getFamilyName();
+    	return getPatient().getFullName();
     }
 	
 }

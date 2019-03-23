@@ -1,25 +1,17 @@
 package bioinfo.pis_hl7;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import upb.bio.models.Consultation;
-import upb.bio.models.Patient;
 
 public class ScheduleManager {
 	
-	private Server s;
 	private List<ScheduleFrame> observers;
 	private List<Consultation> visits;
 	
 	public ScheduleManager() {
-    	s = new Server(); 
-	}
-	
-	public void init() {
-		s.init();
+    	 
 	}
 	
 	public List<Consultation> getVisits(){
@@ -43,12 +35,10 @@ public class ScheduleManager {
 		this.observers = observers;
 	}
 
-	public void putVisit(Patient p) {
-		Consultation c = new Consultation();
-		c.setPatient(p);
+	public void putVisit(Consultation c) {
 		getVisits().add(c);
 		for (ScheduleFrame sf : observers) {
-			sf.action(c);
+			sf.putVisit(c);
 		}
 	}
 	

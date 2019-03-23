@@ -1,11 +1,8 @@
 package bioinfo.pis_hl7;
 
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Map;
+import java.util.Date;
 
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
@@ -19,32 +16,44 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import upb.bio.models.Consultation;
-import upb.bio.models.Patient;
-import javax.swing.ListModel;
-import javax.swing.AbstractListModel;
+import upb.bio.models.Doctor;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class ScheduleFrame extends JFrame {
-
+	
+	private ScheduleManager manager;
+	
 	private JPanel contentPane;
-	private JList list;
+	private JList<Consultation> list;
 	private DefaultListModel<Consultation> dlm;
+	private JButton btnVerConsulta;
+	private VisitFrame visitFrame;
+	public ScheduleManager getManager() {
+		if (manager == null) {
+			manager = new ScheduleManager();
+		}
+		return manager;
+	}
 
-	/**
+	/*
 	 * Create the application.
 	 */
 	public ScheduleFrame() {
 		initialize();
 		subscribeToManager();
-		setVisible(true);
 	}
 
 	private void subscribeToManager() {
-		App.getManager().subscribe(this);
+		getManager().subscribe(this);
 	}
 
 	/**
@@ -64,18 +73,21 @@ public class ScheduleFrame extends JFrame {
 		
 		JSeparator separator = new JSeparator();
 		
-		JComboBox comboBox = new JComboBox();
+		JComboBox<Doctor> comboBoxDoctor = new JComboBox<Doctor>();
 		
-		JComboBox comboBox_1 = new JComboBox();
+		JComboBox<Date> comboBoxDate = new JComboBox<Date>();
 		
-		JButton btnVerConsulta = new JButton("Ver consulta");
+		btnVerConsulta = new JButton("Ver consulta");
 		btnVerConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							VisitFrame frame = new VisitFrame();
-							frame.setVisible(true);
+							if (visitFrame != null) {
+								visitFrame.setVisible(false);
+							}
+							visitFrame = new VisitFrame(list.getSelectedValue());
+							visitFrame.setVisible(true);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -83,31 +95,24 @@ public class ScheduleFrame extends JFrame {
 				});
 			}
 		});
-		
-		JLabel label = new JLabel("Name");
-		
-		JLabel label_1 = new JLabel("Consulta seleccionada:");
+		btnVerConsulta.setEnabled(false);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
 		GroupLayout groupLayout = new GroupLayout(contentPane);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
-						.addComponent(btnVerConsulta, GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
-						.addComponent(separator, GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
-						.addComponent(lblDoctor, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(comboBox, 0, 268, Short.MAX_VALUE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+						.addComponent(btnVerConsulta, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+						.addComponent(separator, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+						.addComponent(lblDoctor, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
+						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+							.addComponent(comboBoxDoctor, 0, 268, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
-							.addGap(7)
-							.addComponent(label, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(comboBoxDate, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -119,25 +124,40 @@ public class ScheduleFrame extends JFrame {
 					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 9, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(label_1)
-						.addComponent(label))
+						.addComponent(comboBoxDoctor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(comboBoxDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
 					.addGap(18)
 					.addComponent(btnVerConsulta)
 					.addContainerGap())
 		);
 		dlm = new DefaultListModel<Consultation>();
-		list = new JList(dlm);
+		list = new JList<Consultation>(dlm);
+		list.setEnabled(false);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent arg0) {
+                if (!arg0.getValueIsAdjusting()) {
+                  checkListContents();
+                }
+            }
+        });
 		scrollPane.setViewportView(list);
 		contentPane.setLayout(groupLayout);
+		checkListContents();
 	}
 	
-	public void action(Consultation c) {
+	public void putVisit(Consultation c) {
 		dlm.add(dlm.getSize(), c);
+		checkListContents();
+		
+	}
+	
+	private void checkListContents() {
+		list.setEnabled(dlm.getSize() > 0);
+		btnVerConsulta.setEnabled(dlm.getSize() > 0 && list.getSelectedIndex() >= 0);
 	}
 }

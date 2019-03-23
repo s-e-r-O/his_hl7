@@ -78,6 +78,10 @@ public class Patient {
 		this.setIDPID = setIdPid;
 	}
 	
+	public String getFullName() {
+		return givenName + " " + familyName;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (o == this) {
