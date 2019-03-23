@@ -1,5 +1,10 @@
 package upb.bio.models;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,5 +47,33 @@ public class Doctor {
 	
 	public void setFamilyName(String familyName) {
 		this.familyName = familyName;
+	}
+	
+	public String getFullName() {
+		return getGivenName() + " " + getFamilyName();
+	}
+	
+	@Override
+    public String toString() {
+    	return getFullName();
+    }
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o == this) {
+		      return true;
+		    }
+		    if (!(o instanceof Doctor)) {
+		      return false;
+		    }
+		    Doctor p = (Doctor)o;
+		    return id.equals(p.id);
+	}
+	
+	@Override
+	public int hashCode() {
+        int hash = 3;
+        hash = 53 * hash + (id != null ? id.hashCode() : 0);
+        return hash;
 	}
 }

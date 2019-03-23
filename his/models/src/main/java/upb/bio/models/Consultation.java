@@ -1,14 +1,16 @@
 package upb.bio.models;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -70,6 +72,12 @@ public class Consultation {
  
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+    
+    @Override
+    public String toString() {
+    	LocalDateTime ldt = LocalDateTime.ofInstant(getConsultationDate().toInstant(), ZoneId.systemDefault());
+    	return getPatient().getFullName() + " (" + ldt.format(DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)) +")";
     }
 	
 }
