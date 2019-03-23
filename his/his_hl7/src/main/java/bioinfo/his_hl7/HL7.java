@@ -1,10 +1,8 @@
 package bioinfo.his_hl7;
 
-import java.io.IOException;
 import java.util.Date;
 
 import ca.uhn.hl7v2.DefaultHapiContext;
-import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.app.Connection;
 import ca.uhn.hl7v2.app.Initiator;

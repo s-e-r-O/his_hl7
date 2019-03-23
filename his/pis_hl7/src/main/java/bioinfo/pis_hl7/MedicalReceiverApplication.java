@@ -11,6 +11,7 @@ import ca.uhn.hl7v2.model.v24.message.ADT_A01;
 import ca.uhn.hl7v2.protocol.ReceivingApplication;
 import ca.uhn.hl7v2.protocol.ReceivingApplicationException;
 import upb.bio.models.Consultation;
+import upb.bio.models.Doctor;
 import upb.bio.models.Patient;
 
 public class MedicalReceiverApplication implements ReceivingApplication {
@@ -26,7 +27,18 @@ public class MedicalReceiverApplication implements ReceivingApplication {
         	// ADT_A01 or ADT_A04
         	Consultation c = new Consultation();
         	c.setPatient(new Patient(((ADT_A01)theMessage).getPID()));
+        	// TO-DO: Get this info from HL7 msg
         	c.setConsultationDate(Calendar.getInstance().getTime());
+        	// TO-DO: Get this info from HL7 msg
+        	Doctor d;
+        	if (App.getManager().getVisits().size() > 0){
+        		d = new Doctor("Maria", "Bonita");
+        		d.setId((long) 123);
+        	} else {
+        		d = new Doctor("Dr", "Seuss");
+        		d.setId((long) 1234);
+        	}
+        	c.setDoctor(d);        		
         	App.getManager().putVisit(c);
         	return theMessage.generateACK();
         } catch (IOException e) {

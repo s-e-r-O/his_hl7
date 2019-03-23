@@ -1,6 +1,10 @@
 package upb.bio.models;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -72,7 +76,8 @@ public class Consultation {
     
     @Override
     public String toString() {
-    	return getPatient().getFullName();
+    	LocalDateTime ldt = LocalDateTime.ofInstant(getConsultationDate().toInstant(), ZoneId.systemDefault());
+    	return getPatient().getFullName() + " (" + ldt.format(DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)) +")";
     }
 	
 }

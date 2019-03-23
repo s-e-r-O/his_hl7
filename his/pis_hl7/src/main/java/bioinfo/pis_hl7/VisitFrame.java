@@ -1,6 +1,10 @@
 package bioinfo.pis_hl7;
 
 import java.awt.Font;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -14,6 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import upb.bio.models.Consultation;
+import java.awt.Dialog.ModalExclusionType;
 
 @SuppressWarnings("serial")
 public class VisitFrame extends JFrame {
@@ -24,6 +29,7 @@ public class VisitFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public VisitFrame(Consultation c) {
+		setResizable(false);
 		this.manager = new VisitManager(c);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 451, 432);
@@ -38,8 +44,8 @@ public class VisitFrame extends JFrame {
 		JSeparator separator = new JSeparator();
 		
 		JLabel lblFechaYHora = new JLabel("Fecha y hora:");
-		
-		JLabel lbldate = new JLabel(manager.getConsultation().getConsultationDate().toString());
+		LocalDateTime ldt = LocalDateTime.ofInstant(manager.getConsultation().getConsultationDate().toInstant(), ZoneId.systemDefault());
+		JLabel lbldate = new JLabel(ldt.format(DateTimeFormatter.ofPattern("dd/MM/YYYY HH:mm", Locale.ENGLISH)));
 		
 		JLabel lblPaciente = new JLabel("Paciente:");
 		
@@ -75,12 +81,12 @@ public class VisitFrame extends JFrame {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblName, GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE))
 						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
-						.addComponent(btnIngresarDiagnostico, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSolicitarMedicamentos, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnPedirLaboratorio, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnPedirRadiografia, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnDarDeAlta, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnFinalizarLaConsulta, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnIngresarDiagnostico, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+						.addComponent(btnSolicitarMedicamentos, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+						.addComponent(btnPedirLaboratorio, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+						.addComponent(btnPedirRadiografia, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+						.addComponent(btnDarDeAlta, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+						.addComponent(btnFinalizarLaConsulta, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -97,7 +103,7 @@ public class VisitFrame extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblPaciente)
 						.addComponent(lblName))
-					.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
 					.addComponent(btnNewButton)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnIngresarDiagnostico)
