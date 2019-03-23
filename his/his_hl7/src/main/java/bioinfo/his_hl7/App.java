@@ -1,5 +1,6 @@
 package bioinfo.his_hl7;
 
+import java.awt.EventQueue;
 import java.util.Date;
 
 import bioinfo.dal_hl7.CRUDService;
@@ -20,5 +21,15 @@ public class App
     	Long id = service.save(newDoctor);
     	newDoctor.setId(id);
     	conHandler.registerEmergencyConsult(newPatient, newDoctor);
+    	EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AuthFrame frame = new AuthFrame();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
     }
 }
