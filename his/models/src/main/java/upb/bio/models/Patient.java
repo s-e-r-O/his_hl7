@@ -15,7 +15,7 @@ import ca.uhn.hl7v2.model.v24.segment.PID;
 public class Patient {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	private String setIDPID;
     private String familyName;
     private String givenName;
@@ -43,11 +43,11 @@ public class Patient {
     	}
     }
     
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
  
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     

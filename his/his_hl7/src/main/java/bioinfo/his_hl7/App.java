@@ -18,7 +18,7 @@ public class App
     	
     	Doctor newDoctor = new Doctor("Dr", "Seuss");
     	CRUDService<Doctor> service = new CRUDService<Doctor>();
-    	Long id = service.save(newDoctor);
+    	Integer id = service.save(newDoctor);
     	newDoctor.setId(id);
     	conHandler.registerEmergencyConsult(newPatient, newDoctor);
     	EventQueue.invokeLater(new Runnable() {

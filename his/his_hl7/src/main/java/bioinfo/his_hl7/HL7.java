@@ -52,12 +52,14 @@ public class HL7 {
 		ADT_A01 adt = new ADT_A01();
 		adt.initQuickstart("ADT", "A04", "P");
 		
-		// Populate the MSH Segment
 		MSH mshSegment = adt.getMSH();
 		mshSegment.getSendingApplication().getNamespaceID().setValue("PatientConsultRegistrationSystem");
 		mshSegment.getSequenceNumber().setValue("123"); //change this
 		
-		// Populate the PID Segment
+		EVN evn = adt.getEVN();
+		//evn.getEventTypeCode().setValue("A04");
+        evn.getRecordedDateTime().getTimeOfAnEvent().setValue(date);
+		
 		PID pid = adt.getPID(); 
 		pid.getPatientName(0).getFamilyName().getSurname().setValue(patient.getFamilyName());
 		pid.getPatientName(0).getGivenName().setValue(patient.getGivenName());
@@ -65,6 +67,7 @@ public class HL7 {
 	
 		PV1 pv1 = adt.getPV1();
 		pv1.getPatientClass().setValue(type);
+		pv1.insertConsultingDoctor(doctor.getId());
 		
 		sendMessage(adt);
 	}
@@ -73,12 +76,22 @@ public class HL7 {
 		ADT_A03 adt = new ADT_A03();
 		adt.initQuickstart("ADT", "A11", "P");
 		
-		// Populate the MSH Segment
 		MSH mshSegment = adt.getMSH();
 		mshSegment.getSendingApplication().getNamespaceID().setValue("PatientConsultRegistrationSystem");
 		mshSegment.getSequenceNumber().setValue("123"); //change this
-				
-		//finish!
+		
+		EVN evn = adt.getEVN();
+		//evn.getEventTypeCode().setValue("A04");
+        evn.getRecordedDateTime().getTimeOfAnEvent().setValue(consult.getConsultationDate());
+        
+		PID pid = adt.getPID(); 
+		pid.getPatientName(0).getFamilyName().getSurname().setValue(consult.getPatient().getFamilyName());
+		pid.getPatientName(0).getGivenName().setValue(consult.getPatient().getGivenName());
+		pid.getPatientIdentifierList(0).getID().setValue(consult.getPatient().getId()+"");
+		
+		PV1 pv1 = adt.getPV1();
+		pv1.getPatientClass().setValue(consult.getType());
+		pv1.insertConsultingDoctor(consult.getDoctor().getId());
 		
 		sendMessage(adt);
 	}

@@ -19,7 +19,7 @@ public class PatientRegistrationHandler {
   	
 	public Patient registerNewPatient(String givenName, String familyName, Date birthDate) {
 		Patient patient = new Patient(givenName, familyName, birthDate);
-		Long id = service.save(patient);
+		Integer id = service.save(patient);
 		patient.setId(id);
 		patients.add(patient); //falta ver que paciente no esta registrado
 		return patient;
