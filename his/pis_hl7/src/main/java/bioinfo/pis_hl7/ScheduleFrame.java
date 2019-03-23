@@ -180,6 +180,8 @@ public class ScheduleFrame extends JFrame {
 			if (modelDoctors.getSize() == 1) {
 				modelDoctors.setSelectedItem(c.getDoctor());
 			}
+		} else if (modelDoctors.getSelectedItem().equals(c.getDoctor())){
+			modelVisits.add(modelVisits.getSize(), c);
 		}
 		checkListContents();
 		
