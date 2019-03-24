@@ -13,9 +13,18 @@ public class ConsultManager {
 	private List<Consultation> consults;
 	private CRUDService<Consultation> service;
 	
-	public ConsultManager () {
+	private static ConsultManager manager;
+	
+	private ConsultManager () {
 		service = new CRUDService<Consultation>();
 		consults = service.get("from Consultation");
+	}
+	
+	public static ConsultManager getInstance() {
+		if (manager == null) {
+			manager = new ConsultManager();
+		}
+		return manager;
 	}
 	
 	public void registerEmergencyConsult(Patient patient, Doctor doctor) {
@@ -30,6 +39,10 @@ public class ConsultManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public List<Consultation> getConsults() {
+		return consults;
 	}
 	
 	public void cancelConsult(Consultation consult) {

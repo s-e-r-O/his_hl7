@@ -86,7 +86,7 @@ public class PatientRegistrationFrame extends JFrame {
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PatientRegistrationHandler handler = PatientRegistrationHandler.getInstance();
+				PatientManager handler = PatientManager.getInstance();
 				handler.registerNewPatient(textField.getText(), textField_1.getText(), new Date("01/02/2003"), (Character)comboBox_3.getSelectedItem(), textField_2.getText(), textField_3.getText(), (MaritalStatus)comboBox_4.getSelectedItem()); //cambiar fecha nacimiento
 				dispose();
 			}

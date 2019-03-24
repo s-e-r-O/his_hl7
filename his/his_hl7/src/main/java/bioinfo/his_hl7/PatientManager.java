@@ -6,20 +6,20 @@ import java.util.List;
 import upb.bio.models.Patient;
 import bioinfo.dal_hl7.CRUDService;
 
-public class PatientRegistrationHandler {
+public class PatientManager {
 		
 	private List<Patient> patients;
 	private CRUDService<Patient> service;
-	private static PatientRegistrationHandler handler;
+	private static PatientManager handler;
 	
-	public static PatientRegistrationHandler getInstance() {
+	public static PatientManager getInstance() {
 		if (handler == null) {
-			handler = new PatientRegistrationHandler();
+			handler = new PatientManager();
 		}
 		return handler;
 	}
 	
-    private PatientRegistrationHandler() 
+    private PatientManager() 
     {
     	service = new CRUDService<Patient>();
     	patients = service.get("from Patient");        
