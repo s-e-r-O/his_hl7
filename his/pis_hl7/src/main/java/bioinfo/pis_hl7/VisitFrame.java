@@ -19,6 +19,8 @@ import javax.swing.border.EmptyBorder;
 
 import upb.bio.models.Consultation;
 import java.awt.Dialog.ModalExclusionType;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class VisitFrame extends JFrame {
@@ -60,6 +62,15 @@ public class VisitFrame extends JFrame {
 		JButton btnPedirLaboratorio = new JButton("Pedir laboratorio");
 		
 		JButton btnPedirRadiografia = new JButton("Pedir radiografia");
+		btnPedirRadiografia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					HL7.sendO01Message(manager.getConsultation().getPatient());
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
 		
 		JButton btnDarDeAlta = new JButton("Dar de alta");
 		

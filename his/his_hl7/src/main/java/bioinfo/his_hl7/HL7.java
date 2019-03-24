@@ -35,6 +35,7 @@ public class HL7 {
 		pid.getPatientName(0).getFamilyName().getSurname().setValue(patient.getFamilyName());
 		pid.getPatientName(0).getGivenName().setValue(patient.getGivenName());
 		pid.getPatientIdentifierList(0).getID().setValue(patient.getId()+""); //do we need a PID?
+		pid.getMaritalStatus().getCe1_Identifier().setValue("M");
 	
 		PV1 pv1 = adt.getPV1();
 		pv1.getPatientClass().setValue(type);
@@ -50,6 +51,7 @@ public class HL7 {
 		MSH mshSegment = adt.getMSH();
 		mshSegment.getSendingApplication().getNamespaceID().setValue("PatientConsultRegistrationSystem");
 		mshSegment.getSequenceNumber().setValue("123"); //change this
+		
 				
 		//finish!
 		
