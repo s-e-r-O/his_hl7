@@ -4,13 +4,13 @@ import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.app.HL7Service;
 import ca.uhn.hl7v2.protocol.ReceivingApplication;
+import upb.bio.global.NetworkConstants;
 
 public class Server {
 	public void init() {
-		int port = 1012; // The port to listen on
     	boolean useTls = false; // Should we use TLS/SSL?
     	HapiContext context = new DefaultHapiContext();
-    	HL7Service server = context.newServer(port, useTls);
+    	HL7Service server = context.newServer(NetworkConstants.PIS_SERVER_PORT, useTls);
     	
     	ReceivingApplication medicalHandler = new MedicalReceiverApplication();
     	server.registerApplication("ADT", "A01", medicalHandler);

@@ -4,15 +4,15 @@ import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.app.HL7Service;
 import ca.uhn.hl7v2.protocol.ReceivingApplication;
+import upb.bio.global.NetworkConstants;
 
 public class App 
 {
     public static void main( String[] args ) throws Exception
     {
-    	int port = 1011; // The port to listen on
     	boolean useTls = false; // Should we use TLS/SSL?
     	HapiContext context = new DefaultHapiContext();
-    	HL7Service server = context.newServer(port, useTls);
+    	HL7Service server = context.newServer(NetworkConstants.EXT_SERVER_PORT, useTls);
     	
     	ReceivingApplication radiologyHandler = new RadiologyReceiverApplication();
     	ReceivingApplication laboratoryHandler = new LaboratoryReceiverApplication();

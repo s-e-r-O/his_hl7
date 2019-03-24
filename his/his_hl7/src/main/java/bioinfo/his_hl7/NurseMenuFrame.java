@@ -53,6 +53,20 @@ public class NurseMenuFrame extends JFrame {
 		});
 		
 		JButton btnRegistroDeLlegada = new JButton("Registro de llegada");
+		btnRegistroDeLlegada.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							PatientConfirmationFrame frame = new PatientConfirmationFrame();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
