@@ -7,6 +7,7 @@ import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.app.Connection;
 import ca.uhn.hl7v2.app.Initiator;
 import ca.uhn.hl7v2.model.Message;
+import ca.uhn.hl7v2.model.v24.datatype.XCN;
 import ca.uhn.hl7v2.model.v24.message.ADT_A01;
 import ca.uhn.hl7v2.model.v24.message.ADT_A03;
 import ca.uhn.hl7v2.model.v24.segment.EVN;
@@ -36,11 +37,19 @@ public class HL7 {
 		PID pid = adt.getPID(); 
 		pid.getPatientName(0).getFamilyName().getSurname().setValue(patient.getFamilyName());
 		pid.getPatientName(0).getGivenName().setValue(patient.getGivenName());
+		pid.getPatientAddress(0).getStreetAddress().getStreetName().setValue(patient.getAddress());
+		pid.getPhoneNumberHome(0).getPhoneNumber().setValue(patient.getPhone());
+		pid.getMaritalStatus(); //USAME!!
+		pid.getAdministrativeSex().setValue(patient.getGender()+"");
 		pid.getPatientIdentifierList(0).getID().setValue(patient.getId()+""); //do we need a PID?
 	
 		PV1 pv1 = adt.getPV1();
 		pv1.getPatientClass().setValue(type);
-		pv1.insertConsultingDoctor(doctor.getId());
+		pv1.insertConsultingDoctor(0);
+		XCN doc = pv1.getConsultingDoctor(0);
+		doc.getGivenName().setValue(doctor.getGivenName());
+		doc.getFamilyName().getSurname().setValue(doctor.getFamilyName());
+		pv1.getConsultingDoctor(0).getIDNumber().setValue(doctor.getId()+"");
 		
 		sendMessage(adt);
 	}
@@ -60,11 +69,19 @@ public class HL7 {
 		PID pid = adt.getPID(); 
 		pid.getPatientName(0).getFamilyName().getSurname().setValue(consult.getPatient().getFamilyName());
 		pid.getPatientName(0).getGivenName().setValue(consult.getPatient().getGivenName());
+		pid.getPatientAddress(0).getStreetAddress().getStreetName().setValue(consult.getPatient().getAddress());
+		pid.getPhoneNumberHome(0).getPhoneNumber().setValue(consult.getPatient().getPhone());
+		pid.getMaritalStatus(); //USAME!!
+		pid.getAdministrativeSex().setValue(consult.getPatient().getGender()+"");
 		pid.getPatientIdentifierList(0).getID().setValue(consult.getPatient().getId()+"");
 		
 		PV1 pv1 = adt.getPV1();
 		pv1.getPatientClass().setValue(consult.getType());
-		pv1.insertConsultingDoctor(consult.getDoctor().getId());
+		pv1.insertConsultingDoctor(0);
+		XCN doc = pv1.getConsultingDoctor(0);
+		doc.getGivenName().setValue(consult.getDoctor().getGivenName());
+		doc.getFamilyName().getSurname().setValue(consult.getDoctor().getFamilyName());
+		pv1.getConsultingDoctor(0).getIDNumber().setValue(consult.getDoctor().getId()+"");
 		
 		sendMessage(adt);
 	}

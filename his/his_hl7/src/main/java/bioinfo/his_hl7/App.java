@@ -10,11 +10,11 @@ import upb.bio.models.Patient;
 public class App 
 {	
     public static void main(String[] args) throws Exception { 
-    	PatientRegistrationHandler patHandler = new PatientRegistrationHandler();
+    	PatientRegistrationHandler patHandler = PatientRegistrationHandler.getInstance();
     	ConsultManager conHandler = new ConsultManager();
     	
     	//register patient
-    	Patient newPatient = patHandler.registerNewPatient("Isabella", "Defilippis", new Date("01/08/1997"));
+    	Patient newPatient = patHandler.registerNewPatient("Isabella", "Defilippis", new Date("01/08/1997"), 'F', "Av 123", "1234567", MaritalStatus.NeverMarried);
     	
     	Doctor newDoctor = new Doctor("Dr", "Seuss");
     	CRUDService<Doctor> service = new CRUDService<Doctor>();

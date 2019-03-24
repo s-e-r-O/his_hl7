@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class PatientRegistrationFrame extends JFrame {
@@ -26,7 +27,8 @@ public class PatientRegistrationFrame extends JFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
-
+	private JComboBox<Character> comboBox_3;
+	private JComboBox<MaritalStatus> comboBox_4;
 	/**
 	 * Create the frame.
 	 */
@@ -63,11 +65,13 @@ public class PatientRegistrationFrame extends JFrame {
 		
 		JLabel lblGenero = new JLabel("Genero:");
 		
-		JComboBox comboBox_3 = new JComboBox();
+		Character[] generos = { 'F', 'M', 'O', 'U' };
+
+		comboBox_3 = new JComboBox<Character>(generos);
 		
 		JLabel lblEstadoCivil = new JLabel("Estado Civil:");
 		
-		JComboBox comboBox_4 = new JComboBox();
+		comboBox_4 = new JComboBox<MaritalStatus>(MaritalStatus.values());
 		
 		JLabel lblDireccion = new JLabel("Dir:");
 		
@@ -80,6 +84,13 @@ public class PatientRegistrationFrame extends JFrame {
 		textField_3.setColumns(10);
 		
 		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PatientRegistrationHandler handler = PatientRegistrationHandler.getInstance();
+				handler.registerNewPatient(textField.getText(), textField_1.getText(), new Date("01/02/2003"), (Character)comboBox_3.getSelectedItem(), textField_2.getText(), textField_3.getText(), (MaritalStatus)comboBox_4.getSelectedItem()); //cambiar fecha nacimiento
+				dispose();
+			}
+		});
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
