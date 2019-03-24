@@ -18,7 +18,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import upb.bio.models.Consultation;
-import java.awt.Dialog.ModalExclusionType;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -65,7 +64,7 @@ public class VisitFrame extends JFrame {
 		btnPedirRadiografia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					HL7.sendO01Message(manager.getConsultation().getPatient());
+					HL7.sendO01Message(manager.getConsultation().getPatient(), new String[] { "algo", "mas"});
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}

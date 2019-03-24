@@ -9,6 +9,7 @@ import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.app.Connection;
 import ca.uhn.hl7v2.app.Initiator;
 import ca.uhn.hl7v2.model.Message;
+import ca.uhn.hl7v2.model.v24.group.ORM_O01_ORDER;
 import ca.uhn.hl7v2.model.v24.message.ORM_O01;
 import ca.uhn.hl7v2.model.v24.segment.OBR;
 import ca.uhn.hl7v2.model.v24.segment.ORC;
@@ -19,18 +20,23 @@ import upb.bio.models.Patient;
 
 public class HL7 {
 	
-	public static void sendO01Message(Patient patient) throws Exception {
+	public static void sendO01Message(Patient patient, String[] details) throws Exception {
 		ORM_O01 orm = new ORM_O01();
 		orm.initQuickstart("ORM", "O01", "P");
 		HL7Binders.bind(orm.getPATIENT().getPID(), patient);
 		
 		String actualDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMddHHmmss", Locale.ENGLISH));
-		ORC orc = orm.getORDER().getORC();
-		orc.getPlacerOrderNumber().getEi1_EntityIdentifier().setValue(actualDate);
-		OBR obr = orm.getORDER().getORDER_DETAIL().getOBR();
-		obr.getPlacerOrderNumber().getEi1_EntityIdentifier().setValue(actualDate);
-		obr.getUniversalServiceIdentifier().getCe1_Identifier().setValue("algo");
-		obr.getObr6_RequestedDateTime().getTimeOfAnEvent().setValue(actualDate);
+		for (int i = 0; i < details.length; i++) {
+			ORM_O01_ORDER order = orm.insertORDER(i);
+			ORC orc = order.getORC();
+			orc.getOrderControl().setValue("NW");
+			orc.getPlacerOrderNumber().getEi1_EntityIdentifier().setValue(actualDate);
+			OBR obr = order.getORDER_DETAIL().getOBR();
+			obr.getSetIDOBR().setValue(Integer.toString(i+1));
+			obr.getPlacerOrderNumber().getEi1_EntityIdentifier().setValue(actualDate);
+			obr.getUniversalServiceIdentifier().getCe1_Identifier().setValue(details[i]);
+			obr.getObr6_RequestedDateTime().getTimeOfAnEvent().setValue(actualDate);			
+		}
 
 		sendMessage(orm);
 	}
