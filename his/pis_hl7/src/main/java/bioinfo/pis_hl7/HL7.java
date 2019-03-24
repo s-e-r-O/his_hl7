@@ -2,7 +2,6 @@ package bioinfo.pis_hl7;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Locale;
 
 import ca.uhn.hl7v2.DefaultHapiContext;
@@ -13,8 +12,8 @@ import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.v24.message.ORM_O01;
 import ca.uhn.hl7v2.model.v24.segment.OBR;
 import ca.uhn.hl7v2.model.v24.segment.ORC;
-import ca.uhn.hl7v2.model.v24.segment.PID;
 import ca.uhn.hl7v2.parser.Parser;
+import upb.bio.global.HL7Binders;
 import upb.bio.global.NetworkConstants;
 import upb.bio.models.Patient;
 
@@ -23,11 +22,8 @@ public class HL7 {
 	public static void sendO01Message(Patient patient) throws Exception {
 		ORM_O01 orm = new ORM_O01();
 		orm.initQuickstart("ORM", "O01", "P");
-		PID pid = orm.getPATIENT().getPID();
-		pid.getPatientName(0).getFamilyName().getSurname().setValue(patient.getFamilyName());
-		pid.getPatientName(0).getGivenName().setValue(patient.getGivenName());
-		pid.getPatientIdentifierList(0).getID().setValue(patient.getId()+""); //do we need a PID?
-		pid.getMaritalStatus().getCe1_Identifier().setValue("M");
+		HL7Binders.bind(orm.getPATIENT().getPID(), patient);
+		
 		String actualDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMddHHmmss", Locale.ENGLISH));
 		ORC orc = orm.getORDER().getORC();
 		orc.getPlacerOrderNumber().getEi1_EntityIdentifier().setValue(actualDate);
