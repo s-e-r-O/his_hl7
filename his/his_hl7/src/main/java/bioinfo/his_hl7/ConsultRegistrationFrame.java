@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -17,14 +18,20 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JList;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import java.awt.Component;
 
+import upb.bio.models.Doctor;
+import upb.bio.models.Patient;
+
 public class ConsultRegistrationFrame extends JFrame {
 
 	private JPanel contentPane;
+	private PatientManager patientManager;
+	private DefaultListModel<Patient> patientsModel;
 
 	/**
 	 * Create the frame.
@@ -36,7 +43,7 @@ public class ConsultRegistrationFrame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
+				
 		JLabel lblRegistrarConsulta = new JLabel("Registrar consulta\r\n");
 		lblRegistrarConsulta.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lblRegistrarConsulta.setHorizontalAlignment(SwingConstants.CENTER);
@@ -162,13 +169,29 @@ public class ConsultRegistrationFrame extends JFrame {
 					.addContainerGap())
 		);
 		
-		JList list_1 = new JList();
+		JList<Doctor> list_1 = new JList<Doctor>();
 		list_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane_1.setViewportView(list_1);
 		
-		JList list = new JList();
+		patientsModel = new DefaultListModel<Patient>();
+		JList<Patient> list = new JList<Patient>(patientsModel);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(list);
 		contentPane.setLayout(gl_contentPane);
+		
+		initializeValues();
+	}
+	
+	private void initializeValues() {
+		patientManager = PatientManager.getInstance();
+		List<Patient> patients = patientManager.getPatients();
+		for (Patient p: patients) {
+			addPatient(p);
+		}
+		patientManager.registerObserver(this);
+	}
+	
+	public void addPatient(Patient patient) {
+		patientsModel.add(patientsModel.getSize(), patient);
 	}
 }

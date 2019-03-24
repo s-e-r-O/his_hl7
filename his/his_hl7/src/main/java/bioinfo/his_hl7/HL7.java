@@ -39,7 +39,7 @@ public class HL7 {
 		pid.getPatientName(0).getGivenName().setValue(patient.getGivenName());
 		pid.getPatientAddress(0).getStreetAddress().getStreetName().setValue(patient.getAddress());
 		pid.getPhoneNumberHome(0).getPhoneNumber().setValue(patient.getPhone());
-		pid.getMaritalStatus(); //USAME!!
+		pid.getMaritalStatus().getCe1_Identifier().setValue(patient.getMaritalStatus());
 		pid.getAdministrativeSex().setValue(patient.getGender()+"");
 		pid.getPatientIdentifierList(0).getID().setValue(patient.getId()+""); //do we need a PID?
 	
@@ -71,7 +71,7 @@ public class HL7 {
 		pid.getPatientName(0).getGivenName().setValue(consult.getPatient().getGivenName());
 		pid.getPatientAddress(0).getStreetAddress().getStreetName().setValue(consult.getPatient().getAddress());
 		pid.getPhoneNumberHome(0).getPhoneNumber().setValue(consult.getPatient().getPhone());
-		pid.getMaritalStatus(); //USAME!!
+		pid.getMaritalStatus().getCe1_Identifier().setValue(consult.getPatient().getMaritalStatus());
 		pid.getAdministrativeSex().setValue(consult.getPatient().getGender()+"");
 		pid.getPatientIdentifierList(0).getID().setValue(consult.getPatient().getId()+"");
 		

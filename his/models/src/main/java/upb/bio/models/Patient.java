@@ -1,6 +1,10 @@
 package upb.bio.models;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -144,4 +148,9 @@ public class Patient {
         hash = 53 * hash + (id != null ? id.hashCode() : 0);
         return hash;
 	}
+	
+	@Override
+    public String toString() {
+    	return getFullName();
+    }
 }
