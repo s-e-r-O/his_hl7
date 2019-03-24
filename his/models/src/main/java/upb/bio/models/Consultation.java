@@ -10,10 +10,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 
 @Entity
 public class Consultation {
+	
+	public enum ConsultTypes{
+		Emergency('E'), Routine('R');
+		
+		 public char asChar() {
+		        return asChar;
+		    }
+
+		    private final char asChar;
+
+		    ConsultTypes(char asChar) {
+		        this.asChar = asChar;
+		    }
+	}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
@@ -30,12 +46,19 @@ public class Consultation {
 	@Temporal(TemporalType.TIMESTAMP)
     private Date consultationDate;
 	
+	private ConsultTypes type;
+	
+	
+
+	
+	
 	public Consultation() {}
 	
-	public Consultation(Date consultationDate, Patient patient, Doctor doctor) {
+	public Consultation(Date consultationDate, Patient patient, Doctor doctor, ConsultTypes type) {
 		this.setConsultationDate(consultationDate);
 		this.setPatient(patient);
 		this.setDoctor(doctor);
+		this.setType(type);
 	}
 	
 	
@@ -70,5 +93,14 @@ public class Consultation {
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }
+    
+    public ConsultTypes getType() {
+        return type;
+    }
+ 
+    public void setType(ConsultTypes type) {
+        this.type = type;
+    }
 	
 }
+

@@ -5,6 +5,7 @@ import java.util.Date;
 import bioinfo.dal_hl7.CRUDService;
 import upb.bio.models.Doctor;
 import upb.bio.models.Patient;
+import upb.bio.models.Consultation.ConsultTypes;
 
 public class App 
 {	
