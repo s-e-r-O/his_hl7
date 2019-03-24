@@ -10,17 +10,17 @@ import upb.bio.models.Patient;
 public class App 
 {	
     public static void main(String[] args) throws Exception { 
-    	PatientRegistrationHandler patHandler = new PatientRegistrationHandler();
-    	ConsultManager conHandler = new ConsultManager();
+    	PatientManager patHandler = PatientManager.getInstance();
+    	ConsultManager conHandler = ConsultManager.getInstance();
     	
     	//register patient
-    	Patient newPatient = patHandler.registerNewPatient("Isabella", "Defilippis", new Date("01/08/1997"));
+    	/*Patient newPatient = patHandler.registerNewPatient("Isabella", "Defilippis", new Date("01/08/1997"), 'F', "Av 123", "1234567", MaritalStatus.NeverMarried);
     	
     	Doctor newDoctor = new Doctor("Dr", "Seuss");
     	CRUDService<Doctor> service = new CRUDService<Doctor>();
-    	Long id = service.save(newDoctor);
+    	Integer id = service.save(newDoctor);
     	newDoctor.setId(id);
-    	conHandler.registerEmergencyConsult(newPatient, newDoctor);
+    	conHandler.registerEmergencyConsult(newPatient, newDoctor);*/
     	EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

@@ -5,11 +5,11 @@ import java.util.List;
 import org.hibernate.Session;
 
 public class CRUDService<T> {
-	public Long save(T o) {
-		Long id = null;
+	public Integer save(T o) {
+		Integer id = null;
 		Session session = Database.getSessionFactory().openSession();
 		session.beginTransaction();
-		id = (Long)session.save(o);
+		id = (Integer)session.save(o);
 		session.getTransaction().commit();
 		return id;
 	}
