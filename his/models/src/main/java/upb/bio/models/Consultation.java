@@ -34,7 +34,7 @@ public class Consultation {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
 	@OneToOne
 	@JoinColumn(name = "Patient_id")
@@ -44,11 +44,11 @@ public class Consultation {
 	@JoinColumn(name = "Doctor_id")
 	private Doctor doctor;
 	
+	private String type;
 	
 	@Temporal(TemporalType.TIMESTAMP)
     private Date consultationDate;
 	
-	private ConsultTypes type;
 	
 	
 
@@ -56,7 +56,7 @@ public class Consultation {
 	
 	public Consultation() {}
 	
-	public Consultation(Date consultationDate, Patient patient, Doctor doctor, ConsultTypes type) {
+	public Consultation(Date consultationDate, Patient patient, Doctor doctor, String type) {
 		this.setConsultationDate(consultationDate);
 		this.setPatient(patient);
 		this.setDoctor(doctor);
@@ -64,11 +64,11 @@ public class Consultation {
 	}
 	
 	
-	public Long getId() {
+	public int getId() {
         return id;
     }
  
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
     
@@ -96,12 +96,12 @@ public class Consultation {
         this.doctor = doctor;
     }
     
-    public ConsultTypes getType() {
-        return type;
+    public String getType() {
+    	return type;
     }
- 
-    public void setType(ConsultTypes type) {
-        this.type = type;
+    
+    public void setType(String type) {
+    	this.type = type;
     }
     
     @Override

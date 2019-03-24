@@ -33,10 +33,10 @@ public class MedicalReceiverApplication implements ReceivingApplication {
         	Doctor d;
         	if (App.getManager().getVisits().size() > 0){
         		d = new Doctor("Maria", "Bonita");
-        		d.setId((long) 123);
+        		d.setId(123);
         	} else {
         		d = new Doctor("Dr", "Seuss");
-        		d.setId((long) 1234);
+        		d.setId(1234);
         	}
         	c.setDoctor(d);        		
         	App.getManager().putVisit(c);
