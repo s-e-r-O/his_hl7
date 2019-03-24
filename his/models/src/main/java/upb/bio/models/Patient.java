@@ -1,6 +1,10 @@
 package upb.bio.models;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,21 +19,28 @@ import ca.uhn.hl7v2.model.v24.segment.PID;
 public class Patient {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	private String setIDPID;
     private String familyName;
     private String givenName;
+    private char gender;
+    private String address;
+    private String phone;
+    private String maritalStatus;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date birthDate;
-    
-    
+        
     public Patient() {}
     
-    public Patient(String givenName, String familyName, Date birthDate) {
+    public Patient(String givenName, String familyName, Date birthDate, char gender, String address, String phone, String maritalStatus) {
     	this.setFamilyName(familyName);
     	this.setGivenName(givenName);
     	this.setBirthDate(birthDate);
+    	this.setGender(gender);
+    	this.setAddress(address);
+    	this.setPhone(phone);
+    	this.setMaritalStatus(maritalStatus);
     }
     
     public Patient(PID p) {
@@ -43,31 +54,68 @@ public class Patient {
     	}
     }
     
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
  
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     
     public String getFamilyName() {
 		return familyName;
 	}
+    
 	public void setFamilyName(String familyName) {
 		this.familyName = familyName;
 	}
+	
 	public String getGivenName() {
 		return givenName;
 	}
+	
 	public void setGivenName(String givenName) {
 		this.givenName = givenName;
 	}
+	
 	public Date getBirthDate() {
 		return birthDate;
 	}
+	
 	public void setBirthDate(Date date) {
 		this.birthDate = date;
+	}
+	
+	public char getGender() {
+		return gender;
+	}
+	
+	public void setGender(char gender) {
+		this.gender = gender;
+	}
+	
+	public String getAddress() {
+		return address;
+	}
+	
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	public String getPhone() {
+		return phone;
+	}
+	
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+	
+	public void setMaritalStatus(String status) {
+		this.maritalStatus = status;
 	}
 
 	public String getSetIDPID() {
@@ -100,4 +148,9 @@ public class Patient {
         hash = 53 * hash + (id != null ? id.hashCode() : 0);
         return hash;
 	}
+	
+	@Override
+    public String toString() {
+    	return getFullName();
+    }
 }

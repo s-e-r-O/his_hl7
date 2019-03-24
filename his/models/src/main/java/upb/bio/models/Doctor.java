@@ -14,7 +14,7 @@ import javax.persistence.Id;
 public class Doctor {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	private String givenName;
 	private String familyName;
 	
@@ -25,11 +25,11 @@ public class Doctor {
 		this.familyName = familyName;
 	}
 	
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	

@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
 public class Consultation {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
 	@OneToOne
 	@JoinColumn(name = "Patient_id")
@@ -29,24 +29,26 @@ public class Consultation {
 	@JoinColumn(name = "Doctor_id")
 	private Doctor doctor;
 	
+	private String type;
 	
 	@Temporal(TemporalType.TIMESTAMP)
     private Date consultationDate;
 	
 	public Consultation() {}
 	
-	public Consultation(Date consultationDate, Patient patient, Doctor doctor) {
+	public Consultation(Date consultationDate, Patient patient, Doctor doctor, String type) {
 		this.setConsultationDate(consultationDate);
 		this.setPatient(patient);
 		this.setDoctor(doctor);
+		this.setType(type);
 	}
 	
 	
-	public Long getId() {
+	public int getId() {
         return id;
     }
  
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
     
@@ -72,6 +74,14 @@ public class Consultation {
  
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+    
+    public String getType() {
+    	return type;
+    }
+    
+    public void setType(String type) {
+    	this.type = type;
     }
     
     @Override

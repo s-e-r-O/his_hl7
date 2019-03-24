@@ -13,15 +13,24 @@ public class ConsultManager {
 	private List<Consultation> consults;
 	private CRUDService<Consultation> service;
 	
-	public ConsultManager () {
+	private static ConsultManager manager;
+	
+	private ConsultManager () {
 		service = new CRUDService<Consultation>();
 		consults = service.get("from Consultation");
 	}
 	
+	public static ConsultManager getInstance() {
+		if (manager == null) {
+			manager = new ConsultManager();
+		}
+		return manager;
+	}
+	
 	public void registerEmergencyConsult(Patient patient, Doctor doctor) {
 		Date actualDate = new Date();
-		Consultation consult = new Consultation(actualDate, patient, doctor);
-		Long id = service.save(consult);
+		Consultation consult = new Consultation(actualDate, patient, doctor, ConsultTypes.Emergency.toString());
+		Integer id = service.save(consult);
 		consult.setId(id);
 		consults.add(consult);
 		try {
@@ -32,8 +41,18 @@ public class ConsultManager {
 		}
 	}
 	
+	public List<Consultation> getConsults() {
+		return consults;
+	}
+	
 	public void cancelConsult(Consultation consult) {
 		service.delete(consult);
+		try {
+			HL7.sendA11Message(consult);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
 
