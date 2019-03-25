@@ -92,14 +92,6 @@ public class ScheduleFrame extends JFrame {
 	        }
 	    });
 		
-		JComboBox<String> comboBoxDate = new JComboBox<String>();
-		
-		comboBoxDate.setModel(new DefaultComboBoxModel<String>(new String[] 
-				{
-					LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/YYYY", Locale.ENGLISH))
-				}));
-		comboBoxDate.setEnabled(false);
-		
 		btnVerConsulta = new JButton("Ver consulta");
 		btnVerConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -132,10 +124,7 @@ public class ScheduleFrame extends JFrame {
 						.addComponent(btnVerConsulta, GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
 						.addComponent(separator, GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
 						.addComponent(lblDoctor, GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(comboBoxDoctor, 0, 308, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(comboBoxDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(comboBoxDoctor, 0, 408, Short.MAX_VALUE))
 					.addGap(2))
 		);
 		groupLayout.setVerticalGroup(
@@ -146,9 +135,7 @@ public class ScheduleFrame extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 9, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(comboBoxDoctor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(comboBoxDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addComponent(comboBoxDoctor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
 					.addGap(18)
