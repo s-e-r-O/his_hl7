@@ -28,9 +28,9 @@ public class HL7 {
 	}
 	
 	
-	public static void sendA04Message(Consultation consult) throws Exception {
+	public static void sendA04A01Message(String type, Consultation consult) throws Exception {
 		ADT_A01 adt = new ADT_A01();
-		adt.initQuickstart("ADT", "A04", "P");
+		adt.initQuickstart("ADT", type, "P");
 		
 		MSH mshSegment = adt.getMSH();
 		mshSegment.getSendingApplication().getNamespaceID().setValue("PatientConsultRegistrationSystem");
