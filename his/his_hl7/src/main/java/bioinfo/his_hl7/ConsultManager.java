@@ -1,5 +1,6 @@
 package bioinfo.his_hl7;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,12 +13,14 @@ public class ConsultManager {
 
 	private List<Consultation> consults;
 	private CRUDService<Consultation> service;
+	private List<ConsultCancellationFrame> observers;
 	
 	private static ConsultManager manager;
 	
 	private ConsultManager () {
 		service = new CRUDService<Consultation>();
 		consults = service.get("from Consultation");
+		observers = new ArrayList<ConsultCancellationFrame>();
 	}
 	
 	public static ConsultManager getInstance() {
@@ -33,6 +36,7 @@ public class ConsultManager {
 		Integer id = service.save(consult);
 		consult.setId(id);
 		consults.add(consult);
+		notifyAll(consult);
 		try {
 			HL7.sendA04Message(patient, doctor, actualDate, ConsultTypes.Emergency.toString());
 		} catch (Exception e) {
@@ -52,6 +56,16 @@ public class ConsultManager {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	public void registerObserver(ConsultCancellationFrame frame) {
+		observers.add(frame);
+	}
+	
+	private void notifyAll(Consultation consult) {
+		for (ConsultCancellationFrame frame: observers) {
+			frame.addConsult(consult);
 		}
 	}
 }
