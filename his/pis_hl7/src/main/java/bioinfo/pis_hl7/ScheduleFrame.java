@@ -6,11 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -99,7 +95,7 @@ public class ScheduleFrame extends JFrame {
 							if (visitFrame != null) {
 								visitFrame.setVisible(false);
 							}
-							visitFrame = new VisitFrame(list.getSelectedValue());
+							visitFrame = new VisitFrame(getManager(), list.getSelectedValue());
 							visitFrame.setVisible(true);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -190,5 +186,13 @@ public class ScheduleFrame extends JFrame {
 		comboBoxDoctor.setEnabled(modelDoctors.getSize() > 1);
 		list.setEnabled(modelVisits.getSize() > 0);
 		btnVerConsulta.setEnabled(modelVisits.getSize() > 0 && list.getSelectedIndex() >= 0);
+	}
+	
+	public void resetVisits(List<Consultation> cs) {
+		modelDoctors.removeAllElements();
+		modelVisits.removeAllElements();
+		for (Consultation c : cs) {
+			putVisit(c);
+		}
 	}
 }

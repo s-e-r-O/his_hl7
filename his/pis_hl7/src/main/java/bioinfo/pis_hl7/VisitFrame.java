@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.swing.GroupLayout;
@@ -20,6 +22,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import org.hibernate.Session;
+
+import bioinfo.dal_hl7.Database;
 import bioinfo.pis_hl7.requests.OrderFrame;
 import bioinfo.pis_hl7.requests.OrderType;
 import upb.bio.models.Consultation;
@@ -29,10 +34,12 @@ public class VisitFrame extends JFrame {
 
 	private JPanel contentPane;
 	private VisitManager manager;
+	private ScheduleManager scheduleM;
 	/**
 	 * Create the frame.
 	 */
-	public VisitFrame(Consultation c) {
+	public VisitFrame(ScheduleManager sm, Consultation c) {
+		scheduleM = sm;
 		setResizable(false);
 		this.manager = new VisitManager(c);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -61,7 +68,16 @@ public class VisitFrame extends JFrame {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							HistoryFrame frame = new HistoryFrame(manager.getConsultation().getPatient());
+							Session session = Database.getSessionFactory().openSession();
+							session.beginTransaction();
+							List<Consultation> result = session.createQuery("from Consultation where Patient_id = " + manager.getConsultation().getPatient().getId()).list();
+							session.getTransaction().commit();
+							List<String> diag = new ArrayList<String>();
+						for (Consultation cs : result) {
+							if (cs.getFinishedAt() != null)
+							diag.add(cs.getDiagnosis());
+						}
+						HistoryFrame frame = new HistoryFrame(diag);
 							frame.setVisible(true);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -144,6 +160,7 @@ public class VisitFrame extends JFrame {
 		btnFinalizarLaConsulta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				manager.finalizeConsult();
+				scheduleM.removeVisit(manager.getConsultation());
 				dispose();
 			}
 		});

@@ -51,6 +51,13 @@ public class ScheduleManager {
 		}
 	}
 	
+	public void removeVisit(Consultation c) {
+		getVisits().remove(c);
+		for (ScheduleFrame sf : observers) {
+			sf.resetVisits(getVisits());
+		}
+	}
+	
 	public void subscribe(ScheduleFrame sf) {
 		getObservers().add(sf);
 	}

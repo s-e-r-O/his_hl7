@@ -45,7 +45,7 @@ public class AuthFrame extends JFrame {
 						try {
 							SecretaryMenuFrame frame = new SecretaryMenuFrame();
 							frame.setVisible(true);
-							dispose();
+							//dispose();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -62,7 +62,7 @@ public class AuthFrame extends JFrame {
 						try {
 							NurseMenuFrame frame = new NurseMenuFrame();
 							frame.setVisible(true);
-							dispose();
+							//dispose();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

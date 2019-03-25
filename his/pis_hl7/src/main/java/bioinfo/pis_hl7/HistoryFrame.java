@@ -3,6 +3,7 @@ package bioinfo.pis_hl7;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -16,20 +17,23 @@ import javax.swing.JSeparator;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
-import upb.bio.models.Patient;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class HistoryFrame extends JFrame {
 
 	private JPanel contentPane;
 	private DefaultListModel<String> model;
 	private JList list;
+	private JButton btnVer;
 	/**
 	 * Create the frame.
 	 */
-	public HistoryFrame(Patient p) {
+	public HistoryFrame(List<String> p) {
 		model = new DefaultListModel<String>();
-		model.addElement("Test 1");
+		for (String s : p) {
+			model.addElement(s);
+		}
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 443, 300);
@@ -54,9 +58,19 @@ public class HistoryFrame extends JFrame {
 		
 		list = new JList(model);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent arg0) {
+                if (!arg0.getValueIsAdjusting()) {
+                  btnVer.setEnabled(list.getSelectedIndex() >= 0);
+                }
+            }
+        });
 		scrollPane.setViewportView(list);
 		
-		JButton btnVer = new JButton("Ver");
+		btnVer = new JButton("Ver");
+		btnVer.setEnabled(false);
 		btnVer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (list.getSelectedIndex() != -1) {
