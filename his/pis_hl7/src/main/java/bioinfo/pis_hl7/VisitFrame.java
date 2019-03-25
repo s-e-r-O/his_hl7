@@ -92,6 +92,24 @@ public class VisitFrame extends JFrame {
 		});
 		
 		JButton btnSolicitarMedicamentos = new JButton("Solicitar medicamentos");
+		btnSolicitarMedicamentos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					EventQueue.invokeLater(new Runnable() {
+						public void run() {
+							try {
+								OrderFrame frame = new OrderFrame(manager.getConsultation().getPatient(), OrderType.Pharmacy);
+								frame.setVisible(true);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
 		
 		JButton btnPedirLaboratorio = new JButton("Pedir laboratorio");
 		btnPedirLaboratorio.addActionListener(new ActionListener() {
@@ -166,7 +184,7 @@ public class VisitFrame extends JFrame {
 							.addComponent(lblName, GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE))
 						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
 						.addComponent(btnIngresarDiagnostico, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
-						.addComponent(btnSolicitarMedicamentos, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+						//.addComponent(btnSolicitarMedicamentos, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
 						.addComponent(btnPedirLaboratorio, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
 						.addComponent(btnPedirRadiografia, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
 						.addComponent(btnDarDeAlta, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
@@ -192,7 +210,7 @@ public class VisitFrame extends JFrame {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnIngresarDiagnostico)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnSolicitarMedicamentos)
+					//.addComponent(btnSolicitarMedicamentos)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnPedirLaboratorio)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
