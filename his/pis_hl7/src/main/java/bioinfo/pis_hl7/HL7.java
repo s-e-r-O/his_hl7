@@ -11,13 +11,18 @@ import ca.uhn.hl7v2.app.Initiator;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.v24.group.OML_O21_ORDER_GENERAL;
 import ca.uhn.hl7v2.model.v24.group.ORM_O01_ORDER;
+import ca.uhn.hl7v2.model.v24.message.ADT_A03;
 import ca.uhn.hl7v2.model.v24.message.OML_O21;
 import ca.uhn.hl7v2.model.v24.message.ORM_O01;
+import ca.uhn.hl7v2.model.v24.message.RDE_O11;
+import ca.uhn.hl7v2.model.v24.segment.EVN;
+import ca.uhn.hl7v2.model.v24.segment.MSH;
 import ca.uhn.hl7v2.model.v24.segment.OBR;
 import ca.uhn.hl7v2.model.v24.segment.ORC;
 import ca.uhn.hl7v2.parser.Parser;
 import upb.bio.global.HL7Binders;
 import upb.bio.global.NetworkConstants;
+import upb.bio.models.Consultation;
 import upb.bio.models.Patient;
 
 public class HL7 {
@@ -62,6 +67,30 @@ public class HL7 {
 		}
 
 		sendMessage(oml);
+	}
+	
+	public static void sendA03Message(Consultation consult) throws Exception {
+		ADT_A03 adt = new ADT_A03();
+		adt.initQuickstart("ADT", "A03", "P");
+		
+		MSH mshSegment = adt.getMSH();
+		mshSegment.getSendingApplication().getNamespaceID().setValue("PhysicianInformationSystem");
+		
+		String actualDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMddHHmmss", Locale.ENGLISH));
+		EVN evn = adt.getEVN();
+		//evn.getEventTypeCode().setValue("A04");
+        evn.getRecordedDateTime().getTimeOfAnEvent().setValue(actualDate);
+        
+        HL7Binders.bind(adt.getPID(), consult.getPatient());
+        HL7Binders.bind(adt.getPV1(), consult);
+        
+        sendMessage(adt);
+	}
+	
+	public static void sendRDEO01Message(Consultation consult, String[] meds, String[] amounts) throws Exception {
+		RDE_O11 rde = new RDE_O11();
+		rde.initQuickstart("RDE", "O11", "P");
+		sendMessage(rde);
 	}
 
 	

@@ -21,6 +21,7 @@ public class HL7Binders {
 	
 	public static void bind(PV1 pv1, Consultation consultation) throws Exception {
 		pv1.getPatientClass().setValue(consultation.getType());
+		pv1.getSetIDPV1().setValue(consultation.getId()+"");
 		pv1.insertConsultingDoctor(0);
 		XCN doc = pv1.getConsultingDoctor(0);
 		doc.getGivenName().setValue(consultation.getDoctor().getGivenName());
@@ -54,6 +55,7 @@ public class HL7Binders {
     	c.setPatient(constructPatient(adt.getPID()));
     	c.setDoctor(constructDoctor(adt.getPV1()));
     	c.setConsultationDate(adt.getEVN().getRecordedDateTime().getTimeOfAnEvent().getValueAsDate());
+    	c.setId(Integer.valueOf(adt.getPV1().getSetIDPV1().getValue()));
     	return c;
 	}
 }

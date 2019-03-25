@@ -42,7 +42,7 @@ public class SecretaryMenuFrame extends JFrame {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							ConsultRegistrationFrame frame = new ConsultRegistrationFrame();
+							ConsultRegistrationFrame frame = new ConsultRegistrationFrame(false);
 							frame.setVisible(true);
 						} catch (Exception e) {
 							e.printStackTrace();

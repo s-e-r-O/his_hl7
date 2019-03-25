@@ -58,6 +58,24 @@ public class VisitFrame extends JFrame {
 		JButton btnNewButton = new JButton("Ver historial");
 		
 		JButton btnIngresarDiagnostico = new JButton("Ingresar diagnostico");
+		btnIngresarDiagnostico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					EventQueue.invokeLater(new Runnable() {
+						public void run() {
+							try {
+								DiagnosisFrame frame = new DiagnosisFrame(manager.getConsultation());
+								frame.setVisible(true);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
 		
 		JButton btnSolicitarMedicamentos = new JButton("Solicitar medicamentos");
 		
@@ -102,8 +120,20 @@ public class VisitFrame extends JFrame {
 		});
 		
 		JButton btnDarDeAlta = new JButton("Dar de alta");
+		btnDarDeAlta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				manager.dischargeConsult();
+			}
+		});
 		
 		JButton btnFinalizarLaConsulta = new JButton("Finalizar la consulta");
+		btnFinalizarLaConsulta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				manager.finalizeConsult();
+				dispose();
+			}
+		});
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
