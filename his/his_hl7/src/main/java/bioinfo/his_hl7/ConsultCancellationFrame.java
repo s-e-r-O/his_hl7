@@ -158,7 +158,7 @@ public class ConsultCancellationFrame extends JFrame implements ConsultInterface
 	public void addConsultIfItIsValid(Consultation consult) {
 		boolean isValid = false;
 		LocalDate localDate = convertDateToLocalDate(consult.getConsultationDate());
-		if (localDate.compareTo(currentDate) == 0) {
+		if (localDate.compareTo(currentDate) == 0 && !consult.getArrived()) {
 			if (false) {//(localDate.equals(LocalDate.now())) {
 				//check hours
 				if (LocalDateTime.now().compareTo(convertDateToLocalDateTime(consult.getConsultationDate())) <= 0) {
