@@ -42,7 +42,10 @@ public class ConsultManager {
 					HL7.sendA05Message(consult);
 					break;
 				case Emergency:
-					HL7.sendA04Message(consult);
+					HL7.sendA04A01Message("A04", consult);
+					break;
+				case Internal:
+					HL7.sendA04A01Message("A01", consult);
 					break;
 			}
 			
@@ -73,7 +76,7 @@ public class ConsultManager {
 	public void registerArrival(Consultation consult) {
 		try 
 		{
-			HL7.sendA04Message(consult);
+			HL7.sendA04A01Message("A04", consult);
 			consult.setArrived(true);
 			service.update(consult);
 		}
@@ -92,5 +95,5 @@ public class ConsultManager {
 }
 
 enum ConsultTypes{
-	Emergency, Routine;
+	Emergency, Routine, Internal;
 }
