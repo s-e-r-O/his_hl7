@@ -13,14 +13,14 @@ public class ConsultManager {
 
 	private List<Consultation> consults;
 	private CRUDService<Consultation> service;
-	private List<ConsultCancellationFrame> observers;
+	private List<ConsultInterface> observers;
 	
 	private static ConsultManager manager;
 	
 	private ConsultManager () {
 		service = new CRUDService<Consultation>();
 		consults = service.get("from Consultation");
-		observers = new ArrayList<ConsultCancellationFrame>();
+		observers = new ArrayList<ConsultInterface>();
 	}
 	
 	public static ConsultManager getInstance() {
@@ -69,7 +69,7 @@ public class ConsultManager {
 		}
 	}
 	
-	public void registerObserver(ConsultCancellationFrame frame) {
+	public void registerObserver(ConsultInterface frame) {
 		observers.add(frame);
 	}
 	
@@ -88,7 +88,7 @@ public class ConsultManager {
 	}
 	
 	private void notifyAll(Consultation consult) {
-		for (ConsultCancellationFrame frame: observers) {
+		for (ConsultInterface frame: observers) {
 			frame.addConsult(consult);
 		}
 	}

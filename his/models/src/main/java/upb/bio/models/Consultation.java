@@ -49,6 +49,7 @@ public class Consultation {
 	
 	private Boolean arrived;
 	
+
 	@Temporal(TemporalType.TIMESTAMP)
     private Date consultationDate;
 	
