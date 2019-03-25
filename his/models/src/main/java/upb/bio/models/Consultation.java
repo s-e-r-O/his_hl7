@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
 @Entity
 public class Consultation {
 	
-	public enum ConsultTypes{
+	/*public enum ConsultTypes{
 		Emergency('E'), Routine('R');
 		
 		 public char asChar() {
@@ -30,7 +30,7 @@ public class Consultation {
 		    ConsultTypes(char asChar) {
 		        this.asChar = asChar;
 		    }
-	}
+	}*/
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -49,11 +49,39 @@ public class Consultation {
 	@Temporal(TemporalType.TIMESTAMP)
     private Date consultationDate;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date finishedAt;
 	
+	private String diagnosis;
 	
+	public String getDiagnosis() {
+		return diagnosis;
+	}
 
+	public void setDiagnosis(String diagnosis) {
+		this.diagnosis = diagnosis;
+	}
+
+	public Date getFinishedAt() {
+		return finishedAt;
+	}
+
+	public void setFinishedAt(Date finishedAt) {
+		this.finishedAt = finishedAt;
+	}
+
+	public Date getDischargedAt() {
+		return dischargedAt;
+	}
+
+	public void setDischargedAt(Date dischargedAt) {
+		this.dischargedAt = dischargedAt;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dischargedAt;
 	
-	
+		
 	public Consultation() {}
 	
 	public Consultation(Date consultationDate, Patient patient, Doctor doctor, String type) {
