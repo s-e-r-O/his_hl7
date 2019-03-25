@@ -137,20 +137,16 @@ public class ConsultRegistrationFrame extends JFrame {
 		JLabel lblHora = new JLabel("Hora:");
 		lblHora.setBounds(284, 409, 44, 16);
 		
-		DatePicker datePicker = new DatePicker();
+		final DatePicker datePicker = new DatePicker();
 		datePicker.setBounds(67, 407, 193, 22);
 		datePicker.setDateToToday();
 		
-		TimePicker timePicker = new TimePicker();
+		final TimePicker timePicker = new TimePicker();
 		timePicker.setBounds(340, 406, 76, 23);
 		timePicker.setTimeToNow();
 		
 		
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(java.sql.Date.valueOf(datePicker.getDate()));
-		cal.add(Calendar.HOUR_OF_DAY, timePicker.getTime().getHour());
-		cal.add(Calendar.MINUTE, timePicker.getTime().getMinute());
-		cal.getTime();
+		
 		
         
 		doctorsModel = new DefaultListModel<Doctor>();
@@ -167,6 +163,11 @@ public class ConsultRegistrationFrame extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ConsultManager handler = ConsultManager.getInstance();
+				final Calendar cal = Calendar.getInstance();
+				cal.setTime(java.sql.Date.valueOf(datePicker.getDate()));
+				cal.add(Calendar.HOUR_OF_DAY, timePicker.getTime().getHour() - 4 );
+				cal.add(Calendar.MINUTE, timePicker.getTime().getMinute());
+				
 				handler.registerRoutineConsult(list.getSelectedValue(), list_1.getSelectedValue(), cal.getTime());
 			}
 		});
