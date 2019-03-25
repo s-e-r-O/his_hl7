@@ -37,4 +37,9 @@ public class VisitManager {
 		this.consultation.setFinishedAt(new Date());
 		this.service.update(consultation);
 	}
+	
+	public void addDiagnosis(String diagnosis) {
+		this.consultation.setDiagnosis(diagnosis);
+		this.service.update(consultation);
+	}
 }
