@@ -44,6 +44,19 @@ public class ConsultManager {
 			e.printStackTrace();
 		}
 	}
+
+	public void registerRoutineConsult(Patient patient, Doctor doctor, Date date) {
+		Consultation consult = new Consultation(date, patient, doctor, ConsultTypes.Routine.toString());
+		Integer id = service.save(consult);
+		consult.setId(id);
+		consults.add(consult);
+		try {
+			HL7.sendA04Message(patient, doctor, date, ConsultTypes.Routine.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public List<Consultation> getConsults() {
 		return consults;

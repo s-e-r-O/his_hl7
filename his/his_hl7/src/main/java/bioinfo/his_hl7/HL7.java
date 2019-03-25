@@ -10,6 +10,7 @@ import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.v24.datatype.XCN;
 import ca.uhn.hl7v2.model.v24.message.ADT_A01;
 import ca.uhn.hl7v2.model.v24.message.ADT_A03;
+import ca.uhn.hl7v2.model.v24.message.ADT_A05;
 import ca.uhn.hl7v2.model.v24.segment.EVN;
 import ca.uhn.hl7v2.model.v24.segment.MSH;
 import ca.uhn.hl7v2.model.v24.segment.PID;
@@ -22,6 +23,10 @@ import upb.bio.models.Doctor;
 import upb.bio.models.Patient;
 
 public class HL7 {
+	public static void test_client() throws Exception {
+		
+	}
+	
 	
 	public static void sendA04Message(Patient patient, Doctor doctor, Date date, String type) throws Exception {
 		ADT_A01 adt = new ADT_A01();
@@ -42,6 +47,26 @@ public class HL7 {
 		sendMessage(adt);
 	}
 	
+	public static void sendA05Message(Patient patient, Doctor doctor, Date date, String type) throws Exception {
+		ADT_A05 adt = new ADT_A05();
+		adt.initQuickstart("ADT", "A05", "P");
+		
+		MSH mshSegment = adt.getMSH();
+		mshSegment.getSendingApplication().getNamespaceID().setValue("PatientConsultRegistrationSystem");
+		mshSegment.getSequenceNumber().setValue("123"); //change this
+		
+		EVN evn = adt.getEVN();
+		//evn.getEventTypeCode().setValue("A04");
+        evn.getRecordedDateTime().getTimeOfAnEvent().setValue(date);
+        
+    	HL7Binders.bind(adt.getPID(), patient);
+		
+		HL7Binders.bind(adt.getPV1(), new Consultation(date, patient, doctor, type));
+
+		sendMessage(adt);
+	}
+
+
 	public static void sendA11Message(Consultation consult) throws Exception {
 		ADT_A03 adt = new ADT_A03();
 		adt.initQuickstart("ADT", "A11", "P");
@@ -61,7 +86,8 @@ public class HL7 {
 	}
 	
 	public static void sendMessage(Message message) throws Exception {
-		boolean useTls = false; // Should we use TLS/SSL?
+		int port = 1012; // The port to listen on
+        boolean useTls = false; // Should we use TLS/SSL?
         HapiContext context = new DefaultHapiContext();
     	    	
     	// A connection object represents a socket attached to an HL7 server

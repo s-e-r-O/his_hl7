@@ -17,6 +17,21 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class Consultation {
+	
+	public enum ConsultTypes{
+		Emergency('E'), Routine('R');
+		
+		 public char asChar() {
+		        return asChar;
+		    }
+
+		    private final char asChar;
+
+		    ConsultTypes(char asChar) {
+		        this.asChar = asChar;
+		    }
+	}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
@@ -33,6 +48,11 @@ public class Consultation {
 	
 	@Temporal(TemporalType.TIMESTAMP)
     private Date consultationDate;
+	
+	
+	
+
+	
 	
 	public Consultation() {}
 	

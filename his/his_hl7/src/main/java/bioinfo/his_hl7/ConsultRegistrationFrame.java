@@ -5,22 +5,39 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.ZoneId;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.JSeparator;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerDateModel;
+
+import java.awt.Component;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -35,7 +52,9 @@ public class ConsultRegistrationFrame extends JFrame {
 
 	private JPanel contentPane;
 	private PatientManager patientManager;
+	private DoctorManager doctorManager;
 	private DefaultListModel<Patient> patientsModel;
+	private DefaultListModel<Doctor> doctorsModel;
 
 	/**
 	 * Create the frame.
@@ -86,8 +105,18 @@ public class ConsultRegistrationFrame extends JFrame {
 		JLabel lblFecha = new JLabel("Fecha:");
 		lblFecha.setBounds(17, 409, 51, 16);
 		
+
+		
 		JButton button = new JButton("Confirmar");
 		button.setBounds(17, 442, 192, 25);
+		
+		JSpinner timeSpinner = new JSpinner( new SpinnerDateModel() );
+		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm");
+		timeSpinner.setEditor(timeEditor);
+		timeSpinner.setValue(new Date());
+		
+		
+		
 		
 		JButton button_1 = new JButton("Cancelar");
 		button_1.setBounds(221, 442, 195, 25);
@@ -108,23 +137,41 @@ public class ConsultRegistrationFrame extends JFrame {
 		JLabel lblHora = new JLabel("Hora:");
 		lblHora.setBounds(284, 409, 44, 16);
 		
-		DatePicker datePicker = new DatePicker();
+		final DatePicker datePicker = new DatePicker();
 		datePicker.setBounds(67, 407, 193, 22);
 		datePicker.setDateToToday();
 		
-		TimePicker timePicker = new TimePicker();
+		final TimePicker timePicker = new TimePicker();
 		timePicker.setBounds(340, 406, 76, 23);
 		timePicker.setTimeToNow();
 		
-		JList<Doctor> list_1 = new JList<Doctor>();
+		
+		
+		
+        
+		doctorsModel = new DefaultListModel<Doctor>();
+		final JList<Doctor> list_1 = new JList<Doctor>(doctorsModel);
 		list_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane_1.setColumnHeaderView(list_1);
 		
 		patientsModel = new DefaultListModel<Patient>();
 		contentPane.setLayout(null);
-		JList<Patient> list = new JList<Patient>(patientsModel);
+		final JList<Patient> list = new JList<Patient>(patientsModel);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(list);
+		
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ConsultManager handler = ConsultManager.getInstance();
+				final Calendar cal = Calendar.getInstance();
+				cal.setTime(java.sql.Date.valueOf(datePicker.getDate()));
+				cal.add(Calendar.HOUR_OF_DAY, timePicker.getTime().getHour() - 4 );
+				cal.add(Calendar.MINUTE, timePicker.getTime().getMinute());
+				
+				handler.registerRoutineConsult(list.getSelectedValue(), list_1.getSelectedValue(), cal.getTime());
+			}
+		});
+		
 		contentPane.add(scrollPane);
 		contentPane.add(lblDoctor);
 		contentPane.add(lblRegistrarConsulta);
@@ -153,10 +200,21 @@ public class ConsultRegistrationFrame extends JFrame {
 		for (Patient p: patients) {
 			addPatient(p);
 		}
+		
+		doctorManager = DoctorManager.getInstance();
+		List<Doctor> doctors = doctorManager.getPatients();
+		for (Doctor d: doctors) {
+			addDoctor(d);
+		}
 		patientManager.registerObserver(this);
 	}
 	
 	public void addPatient(Patient patient) {
 		patientsModel.add(patientsModel.getSize(), patient);
 	}
+	
+	public void addDoctor(Doctor doctor) {
+		doctorsModel.add(doctorsModel.getSize(), doctor);
+	}
 }
+
