@@ -56,6 +56,20 @@ public class VisitFrame extends JFrame {
 		JLabel lblName = new JLabel(manager.getConsultation().getPatient().getFullName());
 		
 		JButton btnNewButton = new JButton("Ver historial");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							HistoryFrame frame = new HistoryFrame(manager.getConsultation().getPatient());
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		
 		JButton btnIngresarDiagnostico = new JButton("Ingresar diagnostico");
 		btnIngresarDiagnostico.addActionListener(new ActionListener() {
