@@ -28,7 +28,7 @@ public class HL7 {
 	}
 	
 	
-	public static void sendA04Message(Patient patient, Doctor doctor, Date date, String type) throws Exception {
+	public static void sendA04Message(Consultation consult) throws Exception {
 		ADT_A01 adt = new ADT_A01();
 		adt.initQuickstart("ADT", "A04", "P");
 		
@@ -37,16 +37,16 @@ public class HL7 {
 
 		EVN evn = adt.getEVN();
 		//evn.getEventTypeCode().setValue("A04");
-        evn.getRecordedDateTime().getTimeOfAnEvent().setValue(date);
+        evn.getRecordedDateTime().getTimeOfAnEvent().setValue(consult.getConsultationDate());
 		
-        HL7Binders.bind(adt.getPID(), patient);
+        HL7Binders.bind(adt.getPID(), consult.getPatient());
 		
-		HL7Binders.bind(adt.getPV1(), new Consultation(date, patient, doctor, type));
+		HL7Binders.bind(adt.getPV1(), consult);
 		
 		sendMessage(adt);
 	}
 	
-	public static void sendA05Message(Patient patient, Doctor doctor, Date date, String type) throws Exception {
+	public static void sendA05Message(Consultation consult) throws Exception {
 		ADT_A05 adt = new ADT_A05();
 		adt.initQuickstart("ADT", "A05", "P");
 		
@@ -55,11 +55,11 @@ public class HL7 {
 		
 		EVN evn = adt.getEVN();
 		//evn.getEventTypeCode().setValue("A04");
-        evn.getRecordedDateTime().getTimeOfAnEvent().setValue(date);
+        evn.getRecordedDateTime().getTimeOfAnEvent().setValue(consult.getConsultationDate());
         
-    	HL7Binders.bind(adt.getPID(), patient);
+    	HL7Binders.bind(adt.getPID(), consult.getPatient());
 		
-		HL7Binders.bind(adt.getPV1(), new Consultation(date, patient, doctor, type));
+		HL7Binders.bind(adt.getPV1(), consult);
 
 		sendMessage(adt);
 	}

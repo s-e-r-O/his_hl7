@@ -39,10 +39,10 @@ public class ConsultManager {
 		try {
 			switch (type) {
 				case Routine:
-					HL7.sendA05Message(patient, doctor, date, type.toString());
+					HL7.sendA05Message(consult);
 					break;
 				case Emergency:
-					HL7.sendA04Message(patient, doctor, date, type.toString());
+					HL7.sendA04Message(consult);
 					break;
 			}
 			
