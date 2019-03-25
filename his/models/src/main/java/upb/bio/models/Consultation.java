@@ -143,7 +143,7 @@ public class Consultation {
 	}
 	
 	public boolean getArrived() {
-		return arrived;
+		return arrived != null && arrived;
 	}
 	
 	public void setArrived(boolean arrived) {
