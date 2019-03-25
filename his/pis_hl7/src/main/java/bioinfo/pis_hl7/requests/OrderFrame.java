@@ -38,11 +38,12 @@ public class OrderFrame extends JFrame {
 	private JButton btnAgregar;
 	private JButton btnBorrar;
 	private JButton btnConfirmar;
-	
+	private OrderType orderType;
 	/**
 	 * Create the frame.
 	 */
-	public OrderFrame(Patient p) {
+	public OrderFrame(Patient p, OrderType type) {
+		orderType = type;
 		manager = new OrderManager(p);
 		orders = new DefaultListModel<String>();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -117,7 +118,7 @@ public class OrderFrame extends JFrame {
 		btnConfirmar.setEnabled(false);
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				manager.sendRequest(Arrays.copyOf(orders.toArray(), orders.size(), String[].class));
+				manager.sendRequest(Arrays.copyOf(orders.toArray(), orders.size(), String[].class), orderType);
 				dispose();
 			}
 		});

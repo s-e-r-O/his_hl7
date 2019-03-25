@@ -9,7 +9,9 @@ import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.app.Connection;
 import ca.uhn.hl7v2.app.Initiator;
 import ca.uhn.hl7v2.model.Message;
+import ca.uhn.hl7v2.model.v24.group.OML_O21_ORDER_GENERAL;
 import ca.uhn.hl7v2.model.v24.group.ORM_O01_ORDER;
+import ca.uhn.hl7v2.model.v24.message.OML_O21;
 import ca.uhn.hl7v2.model.v24.message.ORM_O01;
 import ca.uhn.hl7v2.model.v24.segment.OBR;
 import ca.uhn.hl7v2.model.v24.segment.ORC;
@@ -40,6 +42,28 @@ public class HL7 {
 
 		sendMessage(orm);
 	}
+	
+	public static void sendO21Message(Patient patient, String[] details) throws Exception {
+		OML_O21 oml = new OML_O21();
+		oml.initQuickstart("OML", "O21", "P");
+		HL7Binders.bind(oml.getPATIENT().getPID(), patient);
+		
+		String actualDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMddHHmmss", Locale.ENGLISH));
+		for (int i = 0; i < details.length; i++) {
+			OML_O21_ORDER_GENERAL order = oml.insertORDER_GENERAL(i);
+			ORC orc = order.getORDER().getORC();
+			orc.getOrderControl().setValue("NW");
+			orc.getPlacerOrderNumber().getEi1_EntityIdentifier().setValue(actualDate);
+			OBR obr = order.getORDER().getOBSERVATION_REQUEST().getOBR();
+			obr.getSetIDOBR().setValue(Integer.toString(i+1));
+			obr.getPlacerOrderNumber().getEi1_EntityIdentifier().setValue(actualDate);
+			obr.getUniversalServiceIdentifier().getCe1_Identifier().setValue(details[i]);
+			obr.getObr6_RequestedDateTime().getTimeOfAnEvent().setValue(actualDate);			
+		}
+
+		sendMessage(oml);
+	}
+
 	
 	public static void sendMessage(Message message) throws Exception {
 		boolean useTls = false; // Should we use TLS/SSL?

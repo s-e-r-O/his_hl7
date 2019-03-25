@@ -2,6 +2,8 @@ package bioinfo.pis_hl7;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -19,9 +21,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import bioinfo.pis_hl7.requests.OrderFrame;
+import bioinfo.pis_hl7.requests.OrderType;
 import upb.bio.models.Consultation;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class VisitFrame extends JFrame {
@@ -61,6 +62,24 @@ public class VisitFrame extends JFrame {
 		JButton btnSolicitarMedicamentos = new JButton("Solicitar medicamentos");
 		
 		JButton btnPedirLaboratorio = new JButton("Pedir laboratorio");
+		btnPedirLaboratorio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					EventQueue.invokeLater(new Runnable() {
+						public void run() {
+							try {
+								OrderFrame frame = new OrderFrame(manager.getConsultation().getPatient(), OrderType.Laboratory);
+								frame.setVisible(true);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
 		
 		JButton btnPedirRadiografia = new JButton("Pedir radiografia");
 		btnPedirRadiografia.addActionListener(new ActionListener() {
@@ -69,7 +88,7 @@ public class VisitFrame extends JFrame {
 					EventQueue.invokeLater(new Runnable() {
 						public void run() {
 							try {
-								OrderFrame frame = new OrderFrame(manager.getConsultation().getPatient());
+								OrderFrame frame = new OrderFrame(manager.getConsultation().getPatient(), OrderType.Radiology);
 								frame.setVisible(true);
 							} catch (Exception e) {
 								e.printStackTrace();

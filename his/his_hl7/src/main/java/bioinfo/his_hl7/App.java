@@ -21,7 +21,7 @@ public class App
     	CRUDService<Doctor> service = new CRUDService<Doctor>();
     	Integer id = service.save(newDoctor);
     	newDoctor.setId(id);
-    	
+    	//conHandler.registerEmergencyConsult(newPatient, newDoctor);
     	EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
