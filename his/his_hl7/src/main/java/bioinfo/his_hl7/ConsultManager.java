@@ -73,8 +73,9 @@ public class ConsultManager {
 	public void registerArrival(Consultation consult) {
 		try 
 		{
-			HL7.sendA04Message(consult.getPatient(), consult.getDoctor(), consult.getConsultationDate(), consult.getType());
+			HL7.sendA04Message(consult);
 			consult.setArrived(true);
+			service.update(consult);
 		}
 		catch (Exception e) {
 			
