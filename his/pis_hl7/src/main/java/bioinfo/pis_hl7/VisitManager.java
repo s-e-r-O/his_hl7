@@ -52,5 +52,6 @@ public class VisitManager {
 		for (Object o: objects) {
 			consults.add((Consultation)o);
 		}
+		System.out.println("");
 	}
 }
