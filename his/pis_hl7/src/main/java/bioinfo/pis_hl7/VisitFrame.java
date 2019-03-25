@@ -1,5 +1,6 @@
 package bioinfo.pis_hl7;
 
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -17,6 +18,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import bioinfo.pis_hl7.requests.OrderFrame;
 import upb.bio.models.Consultation;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -64,7 +66,16 @@ public class VisitFrame extends JFrame {
 		btnPedirRadiografia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					HL7.sendO01Message(manager.getConsultation().getPatient(), new String[] { "algo", "mas"});
+					EventQueue.invokeLater(new Runnable() {
+						public void run() {
+							try {
+								OrderFrame frame = new OrderFrame(manager.getConsultation().getPatient());
+								frame.setVisible(true);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
