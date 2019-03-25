@@ -46,6 +46,8 @@ public class Consultation {
 	
 	private String type;
 	
+	private Boolean arrived;
+	
 	@Temporal(TemporalType.TIMESTAMP)
     private Date consultationDate;
 	
@@ -102,6 +104,14 @@ public class Consultation {
     
     public void setType(String type) {
     	this.type = type;
+    }
+    
+    public boolean getArrived() {
+        return arrived;
+    }
+ 
+    public void setArrived(boolean arrived) {
+        this.arrived = arrived;
     }
     
     @Override

@@ -76,6 +76,19 @@ public class ConsultManager {
 		observers.add(frame);
 	}
 	
+	public void registerArrival(Consultation consult) {
+		try 
+		{
+			HL7.sendA04Message(consult.getPatient(), consult.getDoctor(), consult.getConsultationDate(), consult.getType());
+			consult.setArrived(true);
+		}
+		catch (Exception e) {
+			
+		}
+		
+			
+	}
+	
 	private void notifyAll(Consultation consult) {
 		for (ConsultCancellationFrame frame: observers) {
 			frame.addConsult(consult);
