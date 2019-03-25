@@ -2,6 +2,7 @@ package bioinfo.pis_hl7;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import bioinfo.dal_hl7.CRUDService;
 import upb.bio.models.Consultation;
@@ -19,6 +20,12 @@ public class ScheduleManager {
 	public List<Consultation> getVisits(){
 		if (visits == null) {
 	    	visits = service.get("from Consultation");
+	    	visits.removeIf(new Predicate<Consultation>() {
+				@Override
+				public boolean test(Consultation visit) {
+					return !visit.getArrived() && visit.getFinishedAt() != null;
+				}
+			});
 		}
 		return visits;
 	}
