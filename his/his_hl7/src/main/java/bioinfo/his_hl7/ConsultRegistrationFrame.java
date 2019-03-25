@@ -13,15 +13,20 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JList;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerDateModel;
+
 import java.awt.Component;
 
 import upb.bio.models.Doctor;
@@ -31,7 +36,9 @@ public class ConsultRegistrationFrame extends JFrame {
 
 	private JPanel contentPane;
 	private PatientManager patientManager;
+	private DoctorManager doctorManager;
 	private DefaultListModel<Patient> patientsModel;
+	private DefaultListModel<Doctor> doctorsModel;
 
 	/**
 	 * Create the frame.
@@ -83,7 +90,17 @@ public class ConsultRegistrationFrame extends JFrame {
 		
 		JComboBox comboBox_3 = new JComboBox();
 		
+
+		
 		JButton button = new JButton("Confirmar");
+		
+		JSpinner timeSpinner = new JSpinner( new SpinnerDateModel() );
+		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm");
+		timeSpinner.setEditor(timeEditor);
+		timeSpinner.setValue(new Date());
+		
+		
+		
 		
 		JButton button_1 = new JButton("Cancelar");
 		button_1.addActionListener(new ActionListener() {
@@ -126,7 +143,10 @@ public class ConsultRegistrationFrame extends JFrame {
 											.addPreferredGap(ComponentPlacement.RELATED)
 											.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(comboBox_3, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
+											.addComponent(comboBox_3, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
+											
 										.addGroup(gl_contentPane.createSequentialGroup()
 											.addComponent(button, GroupLayout.PREFERRED_SIZE, 192, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(ComponentPlacement.RELATED)
@@ -161,7 +181,8 @@ public class ConsultRegistrationFrame extends JFrame {
 						.addComponent(lblFecha)
 						.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(comboBox_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(comboBox_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(timeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(button)
@@ -169,14 +190,30 @@ public class ConsultRegistrationFrame extends JFrame {
 					.addContainerGap())
 		);
 		
-		JList<Doctor> list_1 = new JList<Doctor>();
+		
+		final JFrame f = new JFrame();
+        f.getContentPane().add(contentPane);
+        f.pack();
+        f.setVisible(true);
+        
+		doctorsModel = new DefaultListModel<Doctor>();
+		final JList<Doctor> list_1 = new JList<Doctor>(doctorsModel);
 		list_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane_1.setViewportView(list_1);
 		
 		patientsModel = new DefaultListModel<Patient>();
-		JList<Patient> list = new JList<Patient>(patientsModel);
+		final JList<Patient> list = new JList<Patient>(patientsModel);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(list);
+		
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ConsultManager handler = ConsultManager.getInstance();
+				handler.registerRoutineConsult(list.getSelectedValue(), list_1.getSelectedValue());
+			}
+		});
+		
+		
 		contentPane.setLayout(gl_contentPane);
 		
 		initializeValues();
@@ -188,10 +225,21 @@ public class ConsultRegistrationFrame extends JFrame {
 		for (Patient p: patients) {
 			addPatient(p);
 		}
+		
+		doctorManager = DoctorManager.getInstance();
+		List<Doctor> doctors = doctorManager.getPatients();
+		for (Doctor d: doctors) {
+			addDoctor(d);
+		}
 		patientManager.registerObserver(this);
 	}
 	
 	public void addPatient(Patient patient) {
 		patientsModel.add(patientsModel.getSize(), patient);
 	}
+	
+	public void addDoctor(Doctor doctor) {
+		doctorsModel.add(doctorsModel.getSize(), doctor);
+	}
 }
+

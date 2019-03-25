@@ -93,7 +93,7 @@ public class HL7 {
 		
 		EVN evn = adt.getEVN();
 		//evn.getEventTypeCode().setValue("A04");
-        evn.getRecordedDateTime().getTimeOfAnEvent().setValue(consult.getConsultationDate());
+        evn.getRecordedDateTime().getTimeOfAnEvent().setValue(date);
         
 		PID pid = adt.getPID(); 
 		pid.getPatientName(0).getFamilyName().getSurname().setValue(patient.getFamilyName());
@@ -111,7 +111,7 @@ public class HL7 {
 		doc.getGivenName().setValue(doctor.getGivenName());
 		doc.getFamilyName().getSurname().setValue(doctor.getFamilyName());
 		pv1.getConsultingDoctor(0).getIDNumber().setValue(doctor.getId()+"");
-		
+
 		sendMessage(adt);
 	}
 

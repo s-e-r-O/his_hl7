@@ -16,12 +16,12 @@ public class App
     	
     	//register patient
     	/*Patient newPatient = patHandler.registerNewPatient("Isabella", "Defilippis", new Date("01/08/1997"), 'F', "Av 123", "1234567", MaritalStatus.NeverMarried);
-    	
+    	conHandler.registerEmergencyConsult(newPatient, newDoctor);*/
     	Doctor newDoctor = new Doctor("Dr", "Seuss");
     	CRUDService<Doctor> service = new CRUDService<Doctor>();
     	Integer id = service.save(newDoctor);
     	newDoctor.setId(id);
-    	conHandler.registerEmergencyConsult(newPatient, newDoctor);*/
+    	
     	EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
