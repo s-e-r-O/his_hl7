@@ -79,7 +79,7 @@ public class ConsultRegistrationFrame extends JFrame {
 		lblTipo.setBounds(17, 57, 50, 16);
 		
 		final JComboBox<ConsultTypes> comboBox = new JComboBox<ConsultTypes>(new DefaultComboBoxModel<ConsultTypes>(ConsultTypes.values()));
-		comboBox.setBounds(89, 54, 70, 22);
+		comboBox.setBounds(89, 54, 108, 22);
 		if (isEmergency) {
 			comboBox.setSelectedItem(ConsultTypes.Emergency);
 		}
@@ -162,13 +162,16 @@ public class ConsultRegistrationFrame extends JFrame {
 		
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ConsultManager handler = ConsultManager.getInstance();
-				final Calendar cal = Calendar.getInstance();
-				cal.setTime(java.sql.Date.valueOf(datePicker.getDate()));
-				cal.add(Calendar.HOUR_OF_DAY, timePicker.getTime().getHour() - 4 );
-				cal.add(Calendar.MINUTE, timePicker.getTime().getMinute());
-				
-				handler.registerConsult(list.getSelectedValue(), list_1.getSelectedValue(), cal.getTime(), (ConsultTypes) comboBox.getSelectedItem());
+				if (!list.isSelectionEmpty() && !list_1.isSelectionEmpty()) {
+					ConsultManager handler = ConsultManager.getInstance();
+					final Calendar cal = Calendar.getInstance();
+					cal.setTime(java.sql.Date.valueOf(datePicker.getDate()));
+					cal.add(Calendar.HOUR_OF_DAY, timePicker.getTime().getHour() - 4 );
+					cal.add(Calendar.MINUTE, timePicker.getTime().getMinute());
+					
+					handler.registerConsult(list.getSelectedValue(), list_1.getSelectedValue(), cal.getTime(), (ConsultTypes) comboBox.getSelectedItem());
+					dispose();
+				}
 			}
 		});
 		
