@@ -162,13 +162,16 @@ public class ConsultRegistrationFrame extends JFrame {
 		
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ConsultManager handler = ConsultManager.getInstance();
-				final Calendar cal = Calendar.getInstance();
-				cal.setTime(java.sql.Date.valueOf(datePicker.getDate()));
-				cal.add(Calendar.HOUR_OF_DAY, timePicker.getTime().getHour() - 4 );
-				cal.add(Calendar.MINUTE, timePicker.getTime().getMinute());
-				
-				handler.registerConsult(list.getSelectedValue(), list_1.getSelectedValue(), cal.getTime(), (ConsultTypes) comboBox.getSelectedItem());
+				if (!list.isSelectionEmpty() && !list_1.isSelectionEmpty()) {
+					ConsultManager handler = ConsultManager.getInstance();
+					final Calendar cal = Calendar.getInstance();
+					cal.setTime(java.sql.Date.valueOf(datePicker.getDate()));
+					cal.add(Calendar.HOUR_OF_DAY, timePicker.getTime().getHour() - 4 );
+					cal.add(Calendar.MINUTE, timePicker.getTime().getMinute());
+					
+					handler.registerConsult(list.getSelectedValue(), list_1.getSelectedValue(), cal.getTime(), (ConsultTypes) comboBox.getSelectedItem());
+
+				}
 			}
 		});
 		
