@@ -43,17 +43,6 @@ public class Patient {
     	this.setMaritalStatus(maritalStatus);
     }
     
-    public Patient(PID p) {
-    	this.setSetIDPID(p.getSetIDPID().getValue());
-    	this.setFamilyName(p.getPatientName(0).getFamilyName().getSurname().getValue());
-    	this.setGivenName(p.getPatientName(0).getGivenName().getValue());
-    	try {
-    		this.setBirthDate(p.getDateTimeOfBirth().getTimeOfAnEvent().getValueAsDate());    		
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    }
-    
     public Integer getId() {
         return id;
     }

@@ -16,6 +16,7 @@ import ca.uhn.hl7v2.model.v24.segment.MSH;
 import ca.uhn.hl7v2.model.v24.segment.PID;
 import ca.uhn.hl7v2.model.v24.segment.PV1;
 import ca.uhn.hl7v2.parser.Parser;
+import upb.bio.global.HL7Binders;
 import upb.bio.global.NetworkConstants;
 import upb.bio.models.Consultation;
 import upb.bio.models.Doctor;
@@ -57,28 +58,15 @@ public class HL7 {
 		
 		MSH mshSegment = adt.getMSH();
 		mshSegment.getSendingApplication().getNamespaceID().setValue("PatientConsultRegistrationSystem");
-		mshSegment.getSequenceNumber().setValue("123");
+		mshSegment.getSequenceNumber().setValue("123"); //change this
 		
 		EVN evn = adt.getEVN();
 		//evn.getEventTypeCode().setValue("A04");
         evn.getRecordedDateTime().getTimeOfAnEvent().setValue(date);
 		
-		PID pid = adt.getPID(); 
-		pid.getPatientName(0).getFamilyName().getSurname().setValue(patient.getFamilyName());
-		pid.getPatientName(0).getGivenName().setValue(patient.getGivenName());
-		pid.getPatientAddress(0).getStreetAddress().getStreetName().setValue(patient.getAddress());
-		pid.getPhoneNumberHome(0).getPhoneNumber().setValue(patient.getPhone());
-		pid.getMaritalStatus().getCe1_Identifier().setValue(patient.getMaritalStatus());
-		pid.getAdministrativeSex().setValue(patient.getGender()+"");
-		pid.getPatientIdentifierList(0).getID().setValue(patient.getId()+""); //do we need a PID?
-	
-		PV1 pv1 = adt.getPV1();
-		pv1.getPatientClass().setValue(type);
-		pv1.insertConsultingDoctor(0);
-		XCN doc = pv1.getConsultingDoctor(0);
-		doc.getGivenName().setValue(doctor.getGivenName());
-		doc.getFamilyName().getSurname().setValue(doctor.getFamilyName());
-		pv1.getConsultingDoctor(0).getIDNumber().setValue(doctor.getId()+"");
+        HL7Binders.bind(adt.getPID(), patient);
+		
+		HL7Binders.bind(adt.getPV1(), new Consultation(date, patient, doctor, type));
 		
 		sendMessage(adt);
 	}
@@ -123,27 +111,13 @@ public class HL7 {
 		MSH mshSegment = adt.getMSH();
 		mshSegment.getSendingApplication().getNamespaceID().setValue("PatientConsultRegistrationSystem");
 		mshSegment.getSequenceNumber().setValue("123"); //change this
-		
 		EVN evn = adt.getEVN();
 		//evn.getEventTypeCode().setValue("A04");
         evn.getRecordedDateTime().getTimeOfAnEvent().setValue(consult.getConsultationDate());
         
-		PID pid = adt.getPID(); 
-		pid.getPatientName(0).getFamilyName().getSurname().setValue(consult.getPatient().getFamilyName());
-		pid.getPatientName(0).getGivenName().setValue(consult.getPatient().getGivenName());
-		pid.getPatientAddress(0).getStreetAddress().getStreetName().setValue(consult.getPatient().getAddress());
-		pid.getPhoneNumberHome(0).getPhoneNumber().setValue(consult.getPatient().getPhone());
-		pid.getMaritalStatus().getCe1_Identifier().setValue(consult.getPatient().getMaritalStatus());
-		pid.getAdministrativeSex().setValue(consult.getPatient().getGender()+"");
-		pid.getPatientIdentifierList(0).getID().setValue(consult.getPatient().getId()+"");
+        HL7Binders.bind(adt.getPID(), consult.getPatient());
 		
-		PV1 pv1 = adt.getPV1();
-		pv1.getPatientClass().setValue(consult.getType());
-		pv1.insertConsultingDoctor(0);
-		XCN doc = pv1.getConsultingDoctor(0);
-		doc.getGivenName().setValue(consult.getDoctor().getGivenName());
-		doc.getFamilyName().getSurname().setValue(consult.getDoctor().getFamilyName());
-		pv1.getConsultingDoctor(0).getIDNumber().setValue(consult.getDoctor().getId()+"");
+		HL7Binders.bind(adt.getPV1(), consult);
 		
 		sendMessage(adt);
 	}
