@@ -23,6 +23,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -40,7 +41,7 @@ public class ConsultCancellationFrame extends JFrame {
 	private ConsultManager consultManager;
 	private DefaultListModel<Consultation> consultsModel;
 	private List<Consultation> consults;
-	private LocalDateTime currentDate;
+	private LocalDate currentDate;
 	/**
 	 * Create the frame.
 	 */
@@ -151,15 +152,15 @@ public class ConsultCancellationFrame extends JFrame {
 		}
 	}
 	
-	private LocalDateTime convertDate(Date date) {
+	private LocalDate convertDate(Date date) {
 		return date.toInstant()
 			      .atZone(ZoneId.systemDefault())
-			      .toLocalDateTime();
+			      .toLocalDate();
 	}
 	
 	private void setCurrentDateValue() {
 		String str = (String)comboBoxDate.getSelectedItem();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
-		currentDate = LocalDateTime.parse(str, formatter);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH);
+		currentDate = LocalDate.parse(str, formatter);
 	}
 }
