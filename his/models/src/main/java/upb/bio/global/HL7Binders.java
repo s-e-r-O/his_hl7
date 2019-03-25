@@ -16,7 +16,8 @@ public class HL7Binders {
 		pid.getPhoneNumberHome(0).getPhoneNumber().setValue(patient.getPhone());
 		pid.getMaritalStatus().getCe1_Identifier().setValue(patient.getMaritalStatus());
 		pid.getAdministrativeSex().setValue(patient.getGender()+"");
-		pid.getPatientIdentifierList(0).getID().setValue(patient.getId()+"");
+		pid.getDateTimeOfBirth().getTimeOfAnEvent().setValue(patient.getBirthDate());
+    	pid.getPatientIdentifierList(0).getID().setValue(patient.getId()+"");
 	}
 	
 	public static void bind(PV1 pv1, Consultation consultation) throws Exception {
@@ -33,7 +34,7 @@ public class HL7Binders {
 		Patient p = new Patient();
     	p.setFamilyName(pid.getPatientName(0).getFamilyName().getSurname().getValue());
     	p.setGivenName(pid.getPatientName(0).getGivenName().getValue());
-    	//p.setBirthDate(pid.getDateTimeOfBirth().getTimeOfAnEvent().getValueAsDate());
+    	p.setBirthDate(pid.getDateTimeOfBirth().getTimeOfAnEvent().getValueAsDate());
     	p.setAddress(pid.getPatientAddress(0).getStreetAddress().getStreetName().getValue());
     	p.setPhone(pid.getPhoneNumberHome(0).getPhoneNumber().getValue());
     	p.setMaritalStatus(pid.getMaritalStatus().getCe1_Identifier().getValue());
