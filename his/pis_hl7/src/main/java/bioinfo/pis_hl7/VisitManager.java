@@ -1,8 +1,11 @@
 package bioinfo.pis_hl7;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import bioinfo.dal_hl7.CRUDService;
+import bioinfo.dal_hl7.UtilsService;
 import upb.bio.models.Consultation;
 
 public class VisitManager {
@@ -41,5 +44,13 @@ public class VisitManager {
 	public void addDiagnosis(String diagnosis) {
 		this.consultation.setDiagnosis(diagnosis);
 		this.service.update(consultation);
+	}
+
+	public void getEMR() {
+		List<Consultation> consults = new ArrayList<Consultation>();
+		List<Object> objects = UtilsService.getConsultsForPatient(consultation.getPatient().getId());
+		for (Object o: objects) {
+			consults.add((Consultation)o);
+		}
 	}
 }
