@@ -13,14 +13,14 @@ public class ConsultManager {
 
 	private List<Consultation> consults;
 	private CRUDService<Consultation> service;
-	private List<ConsultCancellationFrame> observers;
+	private List<ConsultInterface> observers;
 	
 	private static ConsultManager manager;
 	
 	private ConsultManager () {
 		service = new CRUDService<Consultation>();
 		consults = service.get("from Consultation");
-		observers = new ArrayList<ConsultCancellationFrame>();
+		observers = new ArrayList<ConsultInterface>();
 	}
 	
 	public static ConsultManager getInstance() {
@@ -45,7 +45,7 @@ public class ConsultManager {
 					HL7.sendA04A01Message("A04", consult);
 					break;
 				case Internal:
-					HL7.sendA04A01Message("A01", consult);
+					HL7.sendA05Message(consult);
 					break;
 			}
 			
@@ -69,14 +69,18 @@ public class ConsultManager {
 		}
 	}
 	
-	public void registerObserver(ConsultCancellationFrame frame) {
+	public void registerObserver(ConsultInterface frame) {
 		observers.add(frame);
 	}
 	
 	public void registerArrival(Consultation consult) {
 		try 
 		{
-			HL7.sendA04A01Message("A04", consult);
+			String type = "A04";
+			if (consult.getType().equals(ConsultTypes.Internal.toString())) {
+				type = "A01";
+			}
+			HL7.sendA04A01Message(type, consult);
 			consult.setArrived(true);
 			service.update(consult);
 		}
@@ -88,7 +92,7 @@ public class ConsultManager {
 	}
 	
 	private void notifyAll(Consultation consult) {
-		for (ConsultCancellationFrame frame: observers) {
+		for (ConsultInterface frame: observers) {
 			frame.addConsult(consult);
 		}
 	}

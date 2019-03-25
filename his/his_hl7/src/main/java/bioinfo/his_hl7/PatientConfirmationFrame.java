@@ -3,7 +3,12 @@ package bioinfo.his_hl7;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -22,17 +27,23 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.optionalusertools.DateChangeListener;
+import com.github.lgooddatepicker.zinternaltools.DateChangeEvent;
 
 import upb.bio.models.Consultation;
 import upb.bio.models.Doctor;
 import upb.bio.models.Patient;
 
 @SuppressWarnings("serial")
-public class PatientConfirmationFrame extends JFrame {
+public class PatientConfirmationFrame extends JFrame implements ConsultInterface{
 
 	private JPanel contentPane;
 	private ConsultManager consultManager;
+	private List<Consultation> consults;
 	private DefaultListModel<Consultation> consultsModel;
+	private LocalDate currentDate;
+	private DatePicker datePicker;
+	private JList<Consultation> list;
 	
 	/**
 	 * Create the frame.
@@ -62,8 +73,14 @@ public class PatientConfirmationFrame extends JFrame {
 			}
 		});
 		
-		DatePicker datePicker = new DatePicker();
+		datePicker = new DatePicker();
 		datePicker.setDateToToday();
+		datePicker.addDateChangeListener(new DateChangeListener() {
+			public void dateChanged(DateChangeEvent event) {
+				changeDate();
+			}
+		});
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -111,7 +128,7 @@ public class PatientConfirmationFrame extends JFrame {
 		
 		
 		consultsModel = new DefaultListModel<Consultation>();
-		final JList<Consultation> list = new JList<Consultation>(consultsModel);
+		list = new JList<Consultation>(consultsModel);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(list);
 		
@@ -119,6 +136,7 @@ public class PatientConfirmationFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				ConsultManager handler = ConsultManager.getInstance();			
 				handler.registerArrival(list.getSelectedValue());
+				list.remove(list.getSelectedIndex());
 			}
 		});
 		
@@ -128,15 +146,65 @@ public class PatientConfirmationFrame extends JFrame {
 			
 		}
 	private void initializeValues() {
+		setCurrentDateValue();
 		consultManager = ConsultManager.getInstance();
-		List<Consultation> consults = consultManager.getConsults();
+		consults = consultManager.getConsults();
 		for (Consultation c: consults) {
-			addConsult(c);
+			addConsultIfItIsValid(c);
 		}
-		
+		consultManager.registerObserver(this);
 	}
 	
 	public void addConsult(Consultation consult) {
-		consultsModel.add(consultsModel.getSize(), consult);
+		consults.add(consult);
+		addConsultIfItIsValid(consult);
+	}
+	
+	public void addConsultIfItIsValid(Consultation consult) {
+		boolean isValid = false;
+		LocalDate localDate = convertDateToLocalDate(consult.getConsultationDate());
+		if (localDate.compareTo(currentDate) == 0 && !consult.getArrived()) {
+			if (false) {//localDate.equals(LocalDate.now())) {
+				//check hours
+				if (LocalDateTime.now().compareTo(convertDateToLocalDateTime(consult.getConsultationDate())) <= 0) {
+					isValid = true;
+				}
+			}
+			else {
+				isValid = true;
+			}
+		}
+		if (isValid) {
+			consultsModel.add(consultsModel.getSize(), consult);
+			if (consultsModel.getSize() == 1) {
+				list.setSelectedIndex(0);
+			}
+		}
+	}
+	
+	private LocalDate convertDateToLocalDate(Date date) {
+		return date.toInstant()
+			      .atZone(ZoneId.systemDefault())
+			      .toLocalDate();
+	}
+	
+	private LocalDateTime convertDateToLocalDateTime(Date date) {
+		return date.toInstant()
+			      .atZone(ZoneId.systemDefault())
+			      .toLocalDateTime();
+	}
+	
+	private void setCurrentDateValue() {
+		String str = datePicker.getDateStringOrEmptyString();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+		currentDate = LocalDate.parse(str, formatter);
+	}
+	
+	private void changeDate() {
+		setCurrentDateValue();
+		consultsModel.clear();
+		for (Consultation c: consults) {
+			addConsultIfItIsValid(c);
+		}
 	}
 }
