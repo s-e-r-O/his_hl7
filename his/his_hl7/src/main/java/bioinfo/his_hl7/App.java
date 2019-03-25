@@ -13,11 +13,6 @@ public class App
     	PatientManager patHandler = PatientManager.getInstance();
     	ConsultManager conHandler = ConsultManager.getInstance();
     	
-    	//register patient
-    	
-    	
-    	//conHandler.registerConsult(newPatient, newDoctor, new Date("25/03/2019"), ConsultTypes.Routine);
-    	//conHandler.registerEmergencyConsult(newPatient, newDoctor);
     	EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

@@ -3,20 +3,22 @@ package bioinfo.pis_hl7;
 import java.util.ArrayList;
 import java.util.List;
 
+import bioinfo.dal_hl7.CRUDService;
 import upb.bio.models.Consultation;
+import upb.bio.models.Patient;
 
 public class ScheduleManager {
-	
+	private CRUDService<Consultation> service;
 	private List<ScheduleFrame> observers;
 	private List<Consultation> visits;
 	
 	public ScheduleManager() {
-    	 
+    	service = new CRUDService<Consultation>();
 	}
 	
 	public List<Consultation> getVisits(){
 		if (visits == null) {
-			visits = new ArrayList<Consultation>();
+	    	visits = service.get("from Consultation");
 		}
 		return visits;
 	}

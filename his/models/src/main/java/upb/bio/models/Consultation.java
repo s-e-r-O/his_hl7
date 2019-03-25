@@ -153,7 +153,7 @@ public class Consultation {
     @Override
     public String toString() {
     	LocalDateTime ldt = LocalDateTime.ofInstant(getConsultationDate().toInstant(), ZoneId.systemDefault());
-    	return getPatient().getFullName() + " (" + ldt.format(DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)) +")";
+    	return getPatient().getFullName() + " (" + ldt.format(DateTimeFormatter.ofPattern("dd/MM/YYYY HH:mm", Locale.ENGLISH)) +")";
     }
 	
 }

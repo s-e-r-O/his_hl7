@@ -41,7 +41,6 @@ public class ScheduleFrame extends JFrame {
 	
 	private JPanel contentPane;
 	private JList<Consultation> list;
-	private List<Consultation> allVisits;
 	private DefaultListModel<Consultation> modelVisits;
 	private DefaultComboBoxModel<Doctor> modelDoctors;
 	private JButton btnVerConsulta;
@@ -70,7 +69,6 @@ public class ScheduleFrame extends JFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		allVisits = new ArrayList<Consultation>();
 		setTitle("Doctor");
 		setBounds(100, 100, 450, 451);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -157,11 +155,13 @@ public class ScheduleFrame extends JFrame {
         });
 		scrollPane.setViewportView(list);
 		contentPane.setLayout(groupLayout);
+		for (Consultation c : getManager().getVisits()) {
+			putVisit(c);
+		}
 		checkListContents();
 	}
 	
 	public void putVisit(Consultation c) {
-		allVisits.add(c);
 		if (modelDoctors.getIndexOf(c.getDoctor()) == -1) {
 			modelDoctors.addElement(c.getDoctor());
 			if (modelDoctors.getSize() == 1) {
@@ -177,7 +177,7 @@ public class ScheduleFrame extends JFrame {
 	private void changeDoctor() {
 		if (modelDoctors.getSelectedItem() != null) {
 				modelVisits.clear();
-				for (Consultation c : allVisits) {
+				for (Consultation c : getManager().getVisits()) {
 					if (modelDoctors.getSelectedItem().equals(c.getDoctor())) {
 						modelVisits.add(modelVisits.getSize(), c);			
 					}
