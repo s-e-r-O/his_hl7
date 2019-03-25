@@ -136,7 +136,8 @@ public class PatientConfirmationFrame extends JFrame implements ConsultInterface
 			public void actionPerformed(ActionEvent e) {
 				ConsultManager handler = ConsultManager.getInstance();			
 				handler.registerArrival(list.getSelectedValue());
-				list.remove(list.getSelectedIndex());
+				//list.remove(list.getSelectedIndex());
+				dispose();
 			}
 		});
 		
