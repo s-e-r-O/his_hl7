@@ -47,6 +47,7 @@ import upb.bio.models.Doctor;
 import upb.bio.models.Patient;
 import com.github.lgooddatepicker.components.TimePicker;
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
 
 public class ConsultRegistrationFrame extends JFrame {
 
@@ -59,7 +60,8 @@ public class ConsultRegistrationFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ConsultRegistrationFrame() {
+	public ConsultRegistrationFrame(boolean isEmergency) {
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 434, 520);
@@ -76,8 +78,12 @@ public class ConsultRegistrationFrame extends JFrame {
 		JLabel lblTipo = new JLabel("Tipo:");
 		lblTipo.setBounds(17, 57, 50, 16);
 		
-		JComboBox comboBox = new JComboBox();
+		final JComboBox<ConsultTypes> comboBox = new JComboBox<ConsultTypes>(new DefaultComboBoxModel<ConsultTypes>(ConsultTypes.values()));
 		comboBox.setBounds(89, 54, 70, 22);
+		if (isEmergency) {
+			comboBox.setSelectedItem(ConsultTypes.Emergency);
+		}
+		comboBox.setEnabled(!isEmergency);
 		
 		JButton btnRegistrarPaciente = new JButton("Registrar paciente");
 		btnRegistrarPaciente.setBounds(89, 94, 327, 25);
@@ -116,8 +122,6 @@ public class ConsultRegistrationFrame extends JFrame {
 		timeSpinner.setValue(new Date());
 		
 		
-		
-		
 		JButton button_1 = new JButton("Cancelar");
 		button_1.setBounds(221, 442, 195, 25);
 		button_1.addActionListener(new ActionListener() {
@@ -132,23 +136,19 @@ public class ConsultRegistrationFrame extends JFrame {
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(17, 294, 399, 99);
 		
-		DatePicker d = new DatePicker();
-		
 		JLabel lblHora = new JLabel("Hora:");
 		lblHora.setBounds(284, 409, 44, 16);
 		
 		final DatePicker datePicker = new DatePicker();
 		datePicker.setBounds(67, 407, 193, 22);
 		datePicker.setDateToToday();
+		datePicker.setEnabled(!isEmergency);
 		
 		final TimePicker timePicker = new TimePicker();
 		timePicker.setBounds(340, 406, 76, 23);
 		timePicker.setTimeToNow();
+		timePicker.setEnabled(!isEmergency);
 		
-		
-		
-		
-        
 		doctorsModel = new DefaultListModel<Doctor>();
 		final JList<Doctor> list_1 = new JList<Doctor>(doctorsModel);
 		list_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -168,7 +168,7 @@ public class ConsultRegistrationFrame extends JFrame {
 				cal.add(Calendar.HOUR_OF_DAY, timePicker.getTime().getHour() - 4 );
 				cal.add(Calendar.MINUTE, timePicker.getTime().getMinute());
 				
-				handler.registerRoutineConsult(list.getSelectedValue(), list_1.getSelectedValue(), cal.getTime());
+				handler.registerConsult(list.getSelectedValue(), list_1.getSelectedValue(), cal.getTime(), (ConsultTypes) comboBox.getSelectedItem());
 			}
 		});
 		

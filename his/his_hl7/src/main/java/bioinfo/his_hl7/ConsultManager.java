@@ -30,28 +30,23 @@ public class ConsultManager {
 		return manager;
 	}
 	
-	public void registerEmergencyConsult(Patient patient, Doctor doctor) {
-		Date actualDate = new Date();
-		Consultation consult = new Consultation(actualDate, patient, doctor, ConsultTypes.Emergency.toString());
+	public void registerConsult(Patient patient, Doctor doctor, Date date, ConsultTypes type) {
+		Consultation consult = new Consultation(date, patient, doctor, type.toString());
 		Integer id = service.save(consult);
 		consult.setId(id);
 		consults.add(consult);
 		notifyAll(consult);
 		try {
-			HL7.sendA04Message(patient, doctor, actualDate, ConsultTypes.Emergency.toString());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void registerRoutineConsult(Patient patient, Doctor doctor, Date date) {
-		Consultation consult = new Consultation(date, patient, doctor, ConsultTypes.Routine.toString());
-		Integer id = service.save(consult);
-		consult.setId(id);
-		consults.add(consult);
-		try {
-			HL7.sendA04Message(patient, doctor, date, ConsultTypes.Routine.toString());
+			switch (type) {
+				case Routine:
+					//SEND A05
+					HL7.sendA04Message(patient, doctor, date, type.toString());
+					break;
+				case Emergency:
+					HL7.sendA04Message(patient, doctor, date, type.toString());
+					break;
+			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
