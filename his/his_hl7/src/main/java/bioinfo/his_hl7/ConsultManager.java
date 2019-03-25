@@ -39,8 +39,7 @@ public class ConsultManager {
 		try {
 			switch (type) {
 				case Routine:
-					//SEND A05
-					HL7.sendA04Message(patient, doctor, date, type.toString());
+					HL7.sendA05Message(patient, doctor, date, type.toString());
 					break;
 				case Emergency:
 					HL7.sendA04Message(patient, doctor, date, type.toString());
@@ -52,7 +51,7 @@ public class ConsultManager {
 			e.printStackTrace();
 		}
 	}
-	
+		
 	public List<Consultation> getConsults() {
 		return consults;
 	}

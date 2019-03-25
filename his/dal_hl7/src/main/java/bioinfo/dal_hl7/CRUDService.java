@@ -14,6 +14,13 @@ public class CRUDService<T> {
 		return id;
 	}
 	
+	public void update(T o) {
+		Session session = Database.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.saveOrUpdate(o);
+		session.getTransaction().commit();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<T> get(String query) {
 		Session session = Database.getSessionFactory().openSession();
