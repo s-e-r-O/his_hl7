@@ -45,7 +45,7 @@ public class ConsultManager {
 					HL7.sendA04A01Message("A04", consult);
 					break;
 				case Internal:
-					HL7.sendA04A01Message("A01", consult);
+					HL7.sendA05Message(consult);
 					break;
 			}
 			
@@ -76,7 +76,11 @@ public class ConsultManager {
 	public void registerArrival(Consultation consult) {
 		try 
 		{
-			HL7.sendA04A01Message("A04", consult);
+			String type = "A04";
+			if (consult.getType().equals(ConsultTypes.Internal.toString())) {
+				type = "A01";
+			}
+			HL7.sendA04A01Message(type, consult);
 			consult.setArrived(true);
 			service.update(consult);
 		}

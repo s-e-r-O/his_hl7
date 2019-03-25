@@ -93,13 +93,7 @@ public class Consultation {
 		this.setPatient(patient);
 		this.setDoctor(doctor);
 		this.setType(type);
-		
-		if (type == "Routine") {
-			this.setArrived(false);			
-		}
-		else {
-			this.setArrived(true);
-		}
+	
 	}
 	
 	
