@@ -45,6 +45,9 @@ public class Consultation {
 	private Doctor doctor;
 	
 	private String type;
+
+	
+	private Boolean arrived;
 	
 	@Temporal(TemporalType.TIMESTAMP)
     private Date consultationDate;
@@ -89,6 +92,13 @@ public class Consultation {
 		this.setPatient(patient);
 		this.setDoctor(doctor);
 		this.setType(type);
+		
+		if (type == "Routine") {
+			this.setArrived(false);			
+		}
+		else {
+			this.setArrived(true);
+		}
 	}
 	
 	
@@ -130,7 +140,15 @@ public class Consultation {
     
     public void setType(String type) {
     	this.type = type;
-    }
+	}
+	
+	public boolean getArrived() {
+		return arrived;
+	}
+	
+	public void setArrived(boolean arrived) {
+		this.arrived = arrived;
+	}
     
     @Override
     public String toString() {

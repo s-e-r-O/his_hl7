@@ -3,7 +3,10 @@ package bioinfo.his_hl7;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -13,6 +16,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.ListSelectionModel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -20,12 +24,15 @@ import javax.swing.border.EmptyBorder;
 import com.github.lgooddatepicker.components.DatePicker;
 
 import upb.bio.models.Consultation;
+import upb.bio.models.Doctor;
+import upb.bio.models.Patient;
 
 @SuppressWarnings("serial")
 public class PatientConfirmationFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JList<Consultation> list;
+	private ConsultManager consultManager;
+	private DefaultListModel<Consultation> consultsModel;
 	
 	/**
 	 * Create the frame.
@@ -98,8 +105,38 @@ public class PatientConfirmationFrame extends JFrame {
 					.addContainerGap())
 		);
 		
-		list = new JList<Consultation>();
+		
+		
+		
+		
+		
+		consultsModel = new DefaultListModel<Consultation>();
+		final JList<Consultation> list = new JList<Consultation>(consultsModel);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(list);
+		
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ConsultManager handler = ConsultManager.getInstance();			
+				handler.registerArrival(list.getSelectedValue());
+			}
+		});
+		
 		contentPane.setLayout(gl_contentPane);
+		
+		initializeValues();
+			
+		}
+	private void initializeValues() {
+		consultManager = ConsultManager.getInstance();
+		List<Consultation> consults = consultManager.getConsults();
+		for (Consultation c: consults) {
+			addConsult(c);
+		}
+		
+	}
+	
+	public void addConsult(Consultation consult) {
+		consultsModel.add(consultsModel.getSize(), consult);
 	}
 }
