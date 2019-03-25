@@ -30,7 +30,7 @@ public class OrderManager {
 					HL7.sendO21Message(patient, orders);
 					return;
 				case Pharmacy:
-					//HL7.sendO01Message(patient, orders);
+					HL7.sendRDEO01Message(patient, orders);
 					return;
 				}
 			} catch (Exception e) {

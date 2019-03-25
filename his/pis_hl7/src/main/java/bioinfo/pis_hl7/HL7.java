@@ -87,9 +87,18 @@ public class HL7 {
         sendMessage(adt);
 	}
 	
-	public static void sendRDEO01Message(Consultation consult, String[] meds, String[] amounts) throws Exception {
+	public static void sendRDEO01Message(Patient patient, String[] meds) throws Exception {
 		RDE_O11 rde = new RDE_O11();
 		rde.initQuickstart("RDE", "O11", "P");
+		
+		MSH mshSegment = rde.getMSH();
+		mshSegment.getSendingApplication().getNamespaceID().setValue("RequestPharmacy");
+		
+		HL7Binders.bind(rde.getPATIENT().getPID(), patient);
+		
+		for (int x = 0; x < meds.length; x++) {
+			rde.getORDER().getRXC().getComponentCode().getCe2_Text().setValue(meds[x]);			
+		}
 		sendMessage(rde);
 	}
 
