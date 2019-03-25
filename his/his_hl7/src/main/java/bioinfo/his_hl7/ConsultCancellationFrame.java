@@ -36,7 +36,7 @@ import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.optionalusertools.DateChangeListener;
 import com.github.lgooddatepicker.zinternaltools.DateChangeEvent;
 
-public class ConsultCancellationFrame extends JFrame {
+public class ConsultCancellationFrame extends JFrame implements ConsultInterface {
 
 	private JPanel contentPane;
 	private JList list;
@@ -159,7 +159,7 @@ public class ConsultCancellationFrame extends JFrame {
 		boolean isValid = false;
 		LocalDate localDate = convertDateToLocalDate(consult.getConsultationDate());
 		if (localDate.compareTo(currentDate) == 0) {
-			if (localDate.equals(LocalDate.now())) {
+			if (false) {//(localDate.equals(LocalDate.now())) {
 				//check hours
 				if (LocalDateTime.now().compareTo(convertDateToLocalDateTime(consult.getConsultationDate())) <= 0) {
 					isValid = true;
