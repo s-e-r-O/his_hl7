@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Locale;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
+import com.github.lgooddatepicker.components.DatePicker;
 
 public class ConsultCancellationFrame extends JFrame {
 
@@ -59,13 +60,6 @@ public class ConsultCancellationFrame extends JFrame {
 		lblCancelarVisita.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCancelarVisita.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		comboBoxDate = new JComboBox<String>();
-		comboBoxDate.setModel(new DefaultComboBoxModel<String>(new String[] 
-				{
-					LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/YYYY", Locale.ENGLISH))
-				}));
-		comboBoxDate.setEnabled(false);
-		
 		JScrollPane scrollPane = new JScrollPane();
 		
 		JButton button = new JButton("Confirmar");
@@ -84,28 +78,32 @@ public class ConsultCancellationFrame extends JFrame {
 				dispose();
 			}
 		});
+		
+		DatePicker datePicker = new DatePicker();
+		datePicker.setDateToToday();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
-							.addContainerGap())
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+								.addContainerGap())
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+									.addComponent(lblCancelarVisita, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+									.addComponent(separator, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE))
+								.addGap(11))
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addComponent(button, GroupLayout.PREFERRED_SIZE, 192, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 192, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(20, Short.MAX_VALUE)))
 						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblCancelarVisita, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
-								.addComponent(separator, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE))
-							.addGap(11))
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addComponent(comboBoxDate, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(button, GroupLayout.PREFERRED_SIZE, 192, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 192, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(20, Short.MAX_VALUE))))
+							.addComponent(datePicker, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -113,9 +111,9 @@ public class ConsultCancellationFrame extends JFrame {
 					.addComponent(lblCancelarVisita, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 					.addGap(7)
 					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 9, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(comboBoxDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(1)
+					.addComponent(datePicker, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)

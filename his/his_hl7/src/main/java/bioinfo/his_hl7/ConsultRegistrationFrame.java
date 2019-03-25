@@ -1,31 +1,35 @@
 package bioinfo.his_hl7;
 
-import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JSeparator;
-import javax.swing.JComboBox;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.event.ActionEvent;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
-import java.awt.Component;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import com.github.lgooddatepicker.components.DatePicker;
 
 import upb.bio.models.Doctor;
 import upb.bio.models.Patient;
+import com.github.lgooddatepicker.components.TimePicker;
+import javax.swing.Box;
 
 public class ConsultRegistrationFrame extends JFrame {
 
@@ -45,17 +49,19 @@ public class ConsultRegistrationFrame extends JFrame {
 		setContentPane(contentPane);
 				
 		JLabel lblRegistrarConsulta = new JLabel("Registrar consulta\r\n");
+		lblRegistrarConsulta.setBounds(17, 5, 391, 20);
 		lblRegistrarConsulta.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lblRegistrarConsulta.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRegistrarConsulta.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		JSeparator separator = new JSeparator();
-		
 		JLabel lblTipo = new JLabel("Tipo:");
+		lblTipo.setBounds(17, 57, 50, 16);
 		
 		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(89, 54, 70, 22);
 		
 		JButton btnRegistrarPaciente = new JButton("Registrar paciente");
+		btnRegistrarPaciente.setBounds(89, 94, 327, 25);
 		btnRegistrarPaciente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EventQueue.invokeLater(new Runnable() {
@@ -72,20 +78,19 @@ public class ConsultRegistrationFrame extends JFrame {
 		});
 		
 		JLabel lblPaciente = new JLabel("Paciente:");
+		lblPaciente.setBounds(17, 98, 67, 16);
 		
 		JLabel lblDoctor = new JLabel("Doctor:");
+		lblDoctor.setBounds(17, 265, 42, 16);
 		
 		JLabel lblFecha = new JLabel("Fecha:");
-		
-		JComboBox comboBox_1 = new JComboBox();
-		
-		JComboBox comboBox_2 = new JComboBox();
-		
-		JComboBox comboBox_3 = new JComboBox();
+		lblFecha.setBounds(17, 409, 51, 16);
 		
 		JButton button = new JButton("Confirmar");
+		button.setBounds(17, 442, 192, 25);
 		
 		JButton button_1 = new JButton("Cancelar");
+		button_1.setBounds(221, 442, 195, 25);
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -93,91 +98,51 @@ public class ConsultRegistrationFrame extends JFrame {
 		});
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(17, 133, 399, 119);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblDoctor)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(lblRegistrarConsulta, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
-									.addComponent(scrollPane_1, Alignment.LEADING)
-									.addComponent(separator, Alignment.LEADING))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblPaciente, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-									.addGap(132)
-									.addComponent(btnRegistrarPaciente, GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(0, 0, Short.MAX_VALUE)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(lblTipo, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(lblFecha, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(comboBox_3, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(button, GroupLayout.PREFERRED_SIZE, 192, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 192, GroupLayout.PREFERRED_SIZE)))
-									.addPreferredGap(ComponentPlacement.RELATED))
-								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE))
-							.addGap(144)))
-					.addGap(0))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(lblRegistrarConsulta, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 9, GroupLayout.PREFERRED_SIZE)
-					.addGap(13)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTipo)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblPaciente)
-						.addComponent(btnRegistrarPaciente))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
-					.addGap(8)
-					.addComponent(lblDoctor)
-					.addPreferredGap(ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblFecha)
-						.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(comboBox_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(button)
-						.addComponent(button_1))
-					.addContainerGap())
-		);
+		scrollPane_1.setBounds(17, 294, 399, 99);
+		
+		DatePicker d = new DatePicker();
+		
+		JLabel lblHora = new JLabel("Hora:");
+		lblHora.setBounds(284, 409, 44, 16);
+		
+		DatePicker datePicker = new DatePicker();
+		datePicker.setBounds(67, 407, 193, 22);
+		datePicker.setDateToToday();
+		
+		TimePicker timePicker = new TimePicker();
+		timePicker.setBounds(340, 406, 76, 23);
+		timePicker.setTimeToNow();
 		
 		JList<Doctor> list_1 = new JList<Doctor>();
 		list_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollPane_1.setViewportView(list_1);
+		scrollPane_1.setColumnHeaderView(list_1);
 		
 		patientsModel = new DefaultListModel<Patient>();
+		contentPane.setLayout(null);
 		JList<Patient> list = new JList<Patient>(patientsModel);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(list);
-		contentPane.setLayout(gl_contentPane);
+		contentPane.add(scrollPane);
+		contentPane.add(lblDoctor);
+		contentPane.add(lblRegistrarConsulta);
+		contentPane.add(lblPaciente);
+		contentPane.add(btnRegistrarPaciente);
+		contentPane.add(lblTipo);
+		contentPane.add(comboBox);
+		contentPane.add(button);
+		contentPane.add(button_1);
+		contentPane.add(lblFecha);
+		contentPane.add(datePicker);
+		contentPane.add(lblHora);
+		contentPane.add(timePicker);
+		contentPane.add(scrollPane_1);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(17, 27, 399, 9);
+		contentPane.add(separator);
 		
 		initializeValues();
 	}

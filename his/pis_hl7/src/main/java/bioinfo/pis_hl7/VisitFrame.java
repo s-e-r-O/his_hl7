@@ -1,5 +1,6 @@
 package bioinfo.pis_hl7;
 
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -17,8 +18,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import bioinfo.pis_hl7.requests.OrderFrame;
 import upb.bio.models.Consultation;
-import java.awt.Dialog.ModalExclusionType;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class VisitFrame extends JFrame {
@@ -60,6 +63,24 @@ public class VisitFrame extends JFrame {
 		JButton btnPedirLaboratorio = new JButton("Pedir laboratorio");
 		
 		JButton btnPedirRadiografia = new JButton("Pedir radiografia");
+		btnPedirRadiografia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					EventQueue.invokeLater(new Runnable() {
+						public void run() {
+							try {
+								OrderFrame frame = new OrderFrame(manager.getConsultation().getPatient());
+								frame.setVisible(true);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
 		
 		JButton btnDarDeAlta = new JButton("Dar de alta");
 		

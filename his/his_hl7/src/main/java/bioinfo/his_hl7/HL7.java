@@ -49,14 +49,12 @@ public class HL7 {
 		MSH mshSegment = adt.getMSH();
 		mshSegment.getSendingApplication().getNamespaceID().setValue("PatientConsultRegistrationSystem");
 		mshSegment.getSequenceNumber().setValue("123"); //change this
-		
 		EVN evn = adt.getEVN();
 		//evn.getEventTypeCode().setValue("A04");
         evn.getRecordedDateTime().getTimeOfAnEvent().setValue(consult.getConsultationDate());
         
         HL7Binders.bind(adt.getPID(), consult.getPatient());
 		
-
 		HL7Binders.bind(adt.getPV1(), consult);
 		
 		sendMessage(adt);
