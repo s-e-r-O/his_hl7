@@ -23,7 +23,7 @@ public class ScheduleManager {
 	    	visits.removeIf(new Predicate<Consultation>() {
 				@Override
 				public boolean test(Consultation visit) {
-					return !visit.getArrived() && visit.getFinishedAt() != null;
+					return !visit.getArrived() || visit.getFinishedAt() != null;
 				}
 			});
 		}
